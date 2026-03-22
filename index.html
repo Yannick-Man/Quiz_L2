@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Certification Tripoli Niveau 2</title>
+    <style>
+		.header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px; /* Crée un espace propre entre le logo et le texte */
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 80px; /* Taille du logo */
+            height: auto;
+            flex-shrink: 0; /* Empêche le logo de s'écraser sur petit écran */
+        }
+		/* Style moderne pour le lien officiel en bas */
+        .official-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: #f8f9fa; /* Fond gris très clair */
+            color: #555; /* Texte gris foncé élégant */
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 30px;
+            padding: 12px 20px;
+            border-radius: 10px; /* Coins bien arrondis */
+            border: 1px solid #eaeaea;
+            transition: all 0.3s ease; /* Animation fluide */
+        }
+        
+        .official-link:hover {
+            background-color: #4caf50; /* --- CORRECTION : DEVIENT VERT AU SURVOL --- */
+            color: white; /* Texte en blanc pour un bon contraste */
+            border-color: #4caf50;
+            transform: translateY(-3px); /* Effet de soulèvement */
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.2); /* Ombre douce verte */
+        }
+
+        .official-link span {
+            font-size: 1.2rem; /* Agrandit légèrement l'icône */
+        }
+        :root {
+            --primary-color: #d32f2f;
+            --secondary-color: #f4f4f9;
+            --text-color: #333;
+            --correct-color: #4caf50;
+            --wrong-color: #f44336;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 { color: var(--primary-color); text-align: center; margin-bottom: 20px; }
+        
+        /* Menu Styles */
+        #menu-screen { text-align: center; }
+        .menu-btn {
+            display: block;
+            width: 100%;
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .menu-btn:hover { background: var(--primary-color); color: white; }
+
+        /* Progress Bar */
+        .progress-container { width: 100%; background-color: #e0e0e0; border-radius: 8px; margin-bottom: 25px; overflow: hidden; height: 10px; }
+        .progress-bar { height: 100%; background-color: var(--primary-color); width: 0%; transition: width 0.4s ease; }
+        .progress-text { text-align: right; font-size: 14px; color: #666; margin-bottom: 15px; }
+
+        /* Questions & Options */
+        .question { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; line-height: 1.5; min-height: 60px; }
+        .option { display: block; background: #f9f9f9; border: 2px solid #eaeaea; margin: 10px 0; padding: 15px; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 1rem; }
+        .option:hover { background: #f1f1f1; border-color: #ccc; }
+        .option.correct { background: #e8f5e9; border-color: var(--correct-color); color: #2e7d32; }
+        .option.wrong { background: #ffebee; border-color: var(--wrong-color); color: #c62828; }
+        .option.disabled { pointer-events: none; }
+
+        .hint-section { margin-top: 20px; background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px 15px; border-radius: 4px; display: none; font-size: 0.95rem; }
+        
+        /* Layout Boutons */
+        .buttons-group { display: flex; gap: 10px; margin-top: 25px; }
+        .action-btn { flex: 1; padding: 12px; font-size: 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; border: none; transition: 0.3s; }
+        
+        .hint-btn { background: none; border: 1px solid #ffc107; color: #f57c00; }
+        .skip-btn { background: #9e9e9e; color: white; }
+        .next-btn { background: var(--primary-color); color: white; display: none; }
+        
+        .action-btn:hover { opacity: 0.9; }
+        
+        .result-container, #quiz-screen { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="quiz-container">
+    <div class="header-container">
+        <img src="https://images.clubexpress.com/795696/graphics/trimmed_tra_on_black_228648785.jpg" alt="Logo TRA" class="logo">
+        <h1 style="margin:0;">🚀 Level 2</h1>
+    </div>
+	
+    <div id="menu-screen">
+        <p>Sélectionnez votre mode d'entraînement :</p>
+        <button class="menu-btn" onclick="startQuiz(1)">Choix 1 : Technique (1 à 22)</button>
+        <button class="menu-btn" onclick="startQuiz(2)">Choix 2 : Technique (23 à 55)</button>
+        <button class="menu-btn" onclick="startQuiz(3)">Choix 3 : Sécurité (1 à 22)</button>
+        <button class="menu-btn" onclick="startQuiz(4)">Choix 4 : Sécurité (23 à 53)</button>
+        <button class="menu-btn" onclick="startQuiz(5)">Choix 5 : 🏁 SIMULATEUR EXAMEN (50 questions aléatoires)</button>
+    </div>
+
+    <div id="quiz-screen">
+        <h2 id="quiz-title" style="color: #666; font-size: 1rem; text-align: center;">Quiz</h2>
+        <div class="progress-text" id="progress-text">Question 1 / 0</div>
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="question" id="question-text">Chargement...</div>
+        <div id="options-container"></div>
+
+        <div class="hint-section" id="hint-section"></div>
+
+        <div class="buttons-group">
+            <button class="action-btn hint-btn" id="hint-btn" onclick="toggleHint()">💡 Indice</button>
+            <button class="action-btn skip-btn" id="skip-btn" onclick="nextQuestion(true)">Sauter ⏭️</button>
+            <button class="action-btn next-btn" id="next-btn" onclick="nextQuestion(false)">Suivant ➔</button>
+        </div>
+    </div>
+
+    <div class="result-container" id="result-screen">
+        <h1>Bilan de la session</h1>
+        <div class="result-score" id="final-score">0 / 0</div>
+        <p id="result-message"></p>
+        <button class="menu-btn" style="margin-top: 30px;" onclick="location.reload()">Retour au Menu</button>
+    </div>
+	<a href="https://www.tripoli.org/content.aspx?page_id=22&club_id=795696&module_id=468687" target="_blank" class="official-link">
+        <span>🌐</span> Page officielle pour la Certification du Level 2 de Tripoli Rocketry Association
+    </a>
+</div>
+
+<script>
+    // COLLE ICI TOUTE TA LISTE DE 108 QUESTIONS (allQuestions = [...])
+    const allQuestions = [
+        // ... (Insère tes 108 questions ici comme précédemment)
+		{
+            q: "1. Quelle loi de Newton décrit-elle le mieux le comportement d'un moteur de fusée ?",
+            options: [
+                "a. La Première Loi: Un corps persiste dans son état de repos ou de mouvement rectiligne uniforme à moins qu'il soit obligé de changer cet état par des forces exercées sur lui.",
+                "b. La Deuxième Loi: Le taux de changement d'impulsion est proportionnel à la force exercée et est dans la même direction que cette force.",
+                "c. La Troisième Loi: A toute action correspond une réaction de force égale et opposée."
+            ],
+            correct: 2,
+            hint: "Rappelez-vous du principe d'action et de réaction lors de l'éjection des gaz."
+        },
+        {
+            q: "2. Quelle est la relation entre la Troisième Loi de Newton (à toute action correspond une réaction de force égale et opposée) et une fusée ?",
+            options: [
+                "a. La plaque de déviation de jet de la rampe doit être suffisamment solide pour pousser la fusée vers le haut.",
+                "b. La fusée vole, parce que le moteur « pousse » la fusée dans la direction opposée au jet de gaz.",
+                "c. La poussée d'une fusée est proportionnelle à la densité de l'air sur le site de lancement."
+            ],
+            correct: 1,
+            hint: "Le jet de gaz va vers le bas, la fusée va vers le haut."
+        },
+        {
+            q: "3. Quelles sont les trois forces qui agissent sur une fusée pendant son vol ?",
+            options: [
+                "a. La poussée, le diamètre de la fusée et la finition.",
+                "b. La forme de l'ogive, la poussée et la traînée.",
+                "c. La gravité, la poussée et la traînée aérodynamique."
+            ],
+            correct: 2,
+            hint: "Il faut prendre en compte le poids, la force motrice et le frottement de l'air."
+        },
+        {
+            q: "4. Quels sont les 3 principaux facteurs qui ont le plus d'influence dans la détermination de l'altitude d'une fusée de haute puissance en vol vertical?",
+            options: [
+                "a. Le poids au décollage, le poids du combustible et la poussée du moteur.",
+                "b. La taille des ailerons, le poids du combustible et la poussée du moteur.",
+                "c. La poussée du moteur, le poids et la traînée aérodynamique."
+            ],
+            correct: 2,
+            hint: "L'altitude dépend de ce qui propulse la fusée vers le haut, de son poids, et de ce qui la freine."
+        },
+        {
+            q: "5. Pour une fusée stable, quelle est la relation entre le centre de gravité (CG) et le centre de poussée (CP)?",
+            options: [
+                "a. Le CG doit être derrière le CP par rapport au sens de vol.",
+                "b. Le CG doit être devant le CP par rapport au sens de vol.",
+                "c. Le CG doit avancer (par rapport au sens de vol) pendant la combustion du moteur."
+            ],
+            correct: 1,
+            hint: "Pensez à une flèche : le poids est à la pointe (avant), les plumes (portance) sont à l'arrière."
+        },
+        {
+            q: "6. Le centre de gravité (CG) d'une fusée de 10 cm (4\") de diamètre avec son moteur est situé à 10 cm (4\") derrière son centre de pression (CP). Cette fusée est-elle stable ?",
+            options: [
+                "a. Non, le CG doit être au moins deux diamètres derrière le CP.",
+                "b. Non, le CP doit être derrière le CG pour que la fusée soit stable.",
+                "c. Oui, le CP est devant le CG d'un diamètre."
+            ],
+            correct: 1,
+            hint: "Rappelez-vous la règle d'or : le CG doit toujours être devant."
+        },
+        {
+            q: "7. Le centre de pression (CP) d'une fusée est généralement défini par :",
+            options: [
+                "a. Le point d'équilibre de la fusée sans le moteur.",
+                "b. La moitié de l'aire totale des ailerons, de l'ogive et du corps de la fusée.",
+                "c. Le point auquel la portance aérodynamique s'applique."
+            ],
+            correct: 2,
+            hint: "C'est le point de concentration des forces liées à la pression de l'air."
+        },
+        {
+            q: "8. Quelle est la « règle générale » pour avoir une fusée stable ?",
+            options: [
+                "a. Le centre de gravité doit être devant le centre de pression d'un diamètre de corps de fusée.",
+                "b. Le centre de gravité doit être confondu avec le centre de pression",
+                "c. La fusée devrait être équilibrée près ou au centre de gravité."
+            ],
+            correct: 0,
+            hint: "On utilise le diamètre, ou calibre, comme unité de mesure de la marge de stabilité."
+        },
+        {
+            q: "9. Pour déterminer le centre de gravité (CG) d'une fusée avec un moteur plus lourd sur le site de lancement, on peut:",
+            options: [
+                "a. Mettre en place le moteur, le système de récupération et la charge utile et déterminer le point d'équilibre de la fusée dans sa configuration de vol.",
+                "b. Trouver le point d'équilibre avec un moteur vide, parce que c'est dans cette configuration que la fusée sera en fin de propulsion.",
+                "c. Il n'est pas nécessaire de trouver le CG avec un moteur plus puissants, car la poussée est plus importante."
+            ],
+            correct: 0,
+            hint: "Le test de stabilité doit toujours être fait avec la fusée prête à voler (chargée)."
+        },
+        {
+            q: "10. Comment le centre de gravité (CG) d'une fusée évolue-t-il pendant la phase propulsive d'un moteur à combustible solide?",
+            options: [
+                "a. Le CG reste le même.",
+                "b. Le CG se déplace vers l'avant.",
+                "c. Le CG se déplace vers l'arrière."
+            ],
+            correct: 1,
+            hint: "Le moteur (à l'arrière) brûle et s'allège, donc le poids se concentre proportionnellement plus vers l'avant."
+        },
+        {
+            q: "11. Comment une fusée instable peut-elle être rendue stable ?",
+            options: [
+                "a. En utilisant un moteur plus lourd.",
+                "b. En ajoutant du poids dans l'ogive.",
+                "c. En raccourcissant la fusée."
+            ],
+            correct: 1,
+            hint: "Il faut ramener le Centre de Gravité vers l'avant."
+        },
+        {
+            q: "12. Qu'elles sont les 3 méthodes utilisées pour déplacer le centre de gravité (CG) d'une fusée vers l'avant?",
+            options: [
+                "a. Ajout de poids dans l'ogive, allonger la fusée, installer des ailerons plus large.",
+                "b. Ajout de poids dans l'ogive, allonger la fusée, utiliser un moteur plus petit (ou plus léger).",
+                "c. Ajout de poids dans l'ogive, raccourcir la fusée, utiliser un moteur plus petit."
+            ],
+            correct: 1,
+            hint: "Il faut alourdir l'avant, éloigner l'avant de l'arrière, ou alléger l'arrière."
+        },
+        {
+            q: "13. Quelles sont les 3 méthodes utilisées pour déplacer le centre de pression (CP) en arrière?",
+            options: [
+                "a. Raccourcir la fusée, utiliser des ailerons plus grand, augmenter le nombre d'ailerons.",
+                "b. Raccourcir la fusée, utiliser des ailerons plus petits, ajouter du poids à l'ogive.",
+                "c. Raccourcir la fusée, changer le nombre d'ailerons, utiliser une rampe de lancement plus longue."
+            ],
+            correct: 0,
+            hint: "Il faut augmenter la surface aérodynamique à l'arrière de la fusée."
+        },
+        {
+            q: "14. La définition du coefficient de trainée (Cd) est:",
+            options: [
+                "a. Un nombre sans unité qui représente l'effet de la gravité et le nombre de Mach de la fusée.",
+                "b. Un nombre sans unité lié à la configuration de la fusée, le nombre de Mach et l'angle d'attaque.",
+                "c. La force, en Newtons, exercée sur la fusée par l'atmosphère."
+            ],
+            correct: 1,
+            hint: "C'est une grandeur sans dimension qui qualifie l'aérodynamisme du design."
+        },
+        {
+            q: "15. Qu'arrive-t-il au coefficient de trainée (Cd) lorsque la fusée s'approche de la vitesse du son?",
+            options: [
+                "a. Le Cd diminue.",
+                "b. Le Cd reste le même.",
+                "c. Le Cd augmente."
+            ],
+            correct: 2,
+            hint: "Le passage du mur du son crée une très forte résistance de l'air."
+        },
+        {
+            q: "16. Pour une fusée supersonique, quels facteurs affectent principalement le coefficient de trainée (Cd)?",
+            options: [
+                "a. Poussée du moteur, diamètre du corps, forme de l'ogive et forme des ailerons.",
+                "b. Vitesse, dimensions du fuselage, forme de l'ogive et forme des ailerons.",
+                "c. Gravité, dimensions du fuselage, forme de l'ogive et forme des ailerons."
+            ],
+            correct: 1,
+            hint: "Le Cd dépend de la vitesse et de la géométrie extérieure de la fusée."
+        }
+		,{
+            q: "17. Quel est l’impact d’un « boat tail » (Forme en ogive de la partie arrière de la fusée) sur le coefficient de trainée (Cd) d’une fusée subsonique?",
+            options: [
+                "a. Aucun effet, un « boat tail » est une conception esthétique.",
+                "b. Il augmente le coefficient de trainée Cd en modifiant le flux d’air sur les ailerons.",
+                "c. Il diminue le coefficient de trainée Cd en diminuant la trainée à la base."
+            ],
+            correct: 2,
+            hint: "La forme fuselée à l'arrière aide l'air à se refermer proprement, réduisant la dépression à la base de la fusée."
+        },
+        {
+            q: "18. Le vol d’une fusée de haute puissance peut être séparé en 3 phases ; qui sont:",
+            options: [
+                "a. Allumage, burnout et altitude max.",
+                "b. Vol propulsé, montée non propulsée et altitude max.",
+                "c. Vol propulsé, montée non propulsée et descente."
+            ],
+            correct: 2,
+            hint: "Le vol complet inclut la montée (propulsée puis sur l'élan) et le retour au sol."
+        },
+        {
+            q: "19. Qu’est ce qui caractérise la courbe de poussée d’un moteur régressif?",
+            options: [
+                "a. Une poussée initiale forte comparée à la fin de la poussée du moteur.",
+                "b. Une poussée initiale faible comparée à la fin de la poussée du moteur.",
+                "c. La courbe de poussée est constante."
+            ],
+            correct: 0,
+            hint: "« Régressif » signifie que la puissance diminue au fil du temps."
+        },
+        {
+            q: "20. Qu’est ce qui caractérise la courbe de poussée d’un moteur progressif?",
+            options: [
+                "a. Une diminution générale de la poussée durant la combustion.",
+                "b. Une augmentation générale de la poussée durant la combustion.",
+                "c. La courbe de poussée reste constante à l’allumage et à la fin de la combustion."
+            ],
+            correct: 1,
+            hint: "« Progressif » signifie que la poussée s'intensifie à mesure que le propergol brûle."
+        },
+        {
+            q: "21. Un bloc (grain) Bates a une courbe de poussée relativement neutre par ce que:",
+            options: [
+                "a. Les moteurs avec un canal central (core) sont toujours neutres.",
+                "b. La surface du propergol qui brule reste relativement constante.",
+                "c. Le canal central (core) est centré dans le bloc (grain) de propergol."
+            ],
+            correct: 1,
+            hint: "La géométrie des segments compense l'usure, gardant une zone de flamme identique tout au long du vol."
+        },
+        {
+            q: "22. A quoi servent « le liner » et les joints toriques dans un moteur fusée solide?",
+            options: [
+                "a. Pour maintenir en place toutes les pièces avant l'allumage du moteur fusée.",
+                "b. Pour permettre un nettoyage aisé du moteur rechargeable.",
+                "c. Pour empêcher les gaz chaud du moteur de bruler ou faire fondre l'enveloppe du moteur."
+            ],
+            correct: 2,
+            hint: "C'est une protection thermique essentielle pour que l'enveloppe en aluminium ne cède pas sous la chaleur."
+        },
+        {
+            q: "23. Quel est l'oxydant le plus couramment utilisé dans les moteurs fusée composite de haute puissance ?",
+            options: [
+                "a. Perchlorate d'Ammonium",
+                "b. Nitrate d'Ammonium",
+                "c. Chlorate d'Ammonium"
+            ],
+            correct: 0,
+            hint: "C'est le composant principal (APCP = Ammonium Perchlorate Composite Propellant)."
+        },
+        {
+            q: "24. Qu'est-ce que le NH4ClO4 ?",
+            options: [
+                "a. Perchlorate d'Ammonium",
+                "b. Nitrate d'Ammonium",
+                "c. Chlorate d'Ammonium"
+            ],
+            correct: 0,
+            hint: "C'est la formule chimique exacte de l'oxydant vu à la question précédente."
+        },
+        {
+            q: "25. Un petit trou est en général percé près du haut du fuselage d’une fusée de haute puissance, en dessous de l’ogive ou de la section dans laquelle se trouve la charge utile. Pourquoi ?",
+            options: [
+                "a. Ce trou évacue l’excès de pression de la charge d’éjection, pour réduire la tension sur le « cordon de choc ».",
+                "b. Le trou permet aux altimètres de mesurer la pression de l’air.",
+                "c. Le trou évacue la pression de l’air interne lorsque la fusée prend de l’altitude pour éviter une éjection prématurée."
+            ],
+            correct: 2, // Réponse C
+            hint: "En prenant de l'altitude, la pression atmosphérique extérieure diminue. Si l'air emprisonné dans le tube est parfaitement hermétique, sa pression interne restera forte et poussera l'ogive vers l'extérieur comme un bouchon de champagne. Ce trou d'évent permet d'équilibrer les pressions."
+        },
+        {
+            q: "26. Que se passe t’il lorsque l’orifice d’un injecteur d’un moteur fusée hybride idéale est réduit (en supposant que le poids de l’oxydant reste le même)?",
+            options: [
+                "a. L’impulsion totale diminue et la poussée moyenne augmente.",
+                "b. L’impulsion totale reste la même et la poussée moyenne augmente.",
+                "c. L’impulsion totale reste la même et la poussée moyenne diminue."
+            ],
+            correct: 2,
+            hint: "S'il y a moins de liquide qui passe (petit trou), ça pousse moins fort, mais plus longtemps. L'énergie globale reste la même."
+        },
+        {
+            q: "27. Que se passe t’il lorsque le diamètre de l’orifice d’un injecteur d’un moteur fusée hybride idéale est agrandi (en supposant que le poids de l’oxydant reste le même)?",
+            options: [
+                "a. L’impulsion totale diminue et la poussée moyenne augmente.",
+                "b. L’impulsion totale reste la même et la poussée moyenne augmente.",
+                "c. L’impulsion totale reste la même et la poussée moyenne diminue."
+            ],
+            correct: 1,
+            hint: "Plus d'oxydant est injecté rapidement : le moteur est plus puissant (poussée), mais s'épuise plus vite. L'énergie globale (impulsion) est inchangée."
+        },
+        {
+            q: "28. Quel est l'oxydent le plus utilisé dans un moteur fusée hybride commercial?",
+            options: [
+                "a. N2O",
+                "b. N2O4",
+                "c. NO2"
+            ],
+            correct: 0,
+            hint: "C'est le protoxyde d'azote (gaz hilarant)."
+        },
+        {
+            q: "29. Quelle est la pression nominale du réservoir de protoxyde d'azote dans un moteur hybride a 75°F (24°C)?",
+            options: [
+                "a. 100 psi",
+                "b. 750 psi",
+                "c. 1500 psi"
+            ],
+            correct: 1,
+            hint: "Le protoxyde d'azote se maintient naturellement à une pression d'environ 750 psi à température ambiante."
+        },
+        {
+            q: "30. Au-dessus de quelle température le protoxyde d'azote sous pression se change en gaz?",
+            options: [
+                "a. 97°F (36°C)",
+                "b. 75°F (24°C)",
+                "c. 37°F (03°C)"
+            ],
+            correct: 0,
+            hint: "À partir de 36°C, la chaleur est trop élevée pour qu'il reste sous forme liquide, causant une chute drastique des performances."
+        },
+        {
+            q: "31. Une fusée avec un cluster de moteurs composé d’un moteur central composite et de 4 moteurs poudre noire utilisant 4 allumeurs identiques :",
+            options: [
+                "a. Aura tous les moteurs qui s’allument à peu près en même temps.",
+                "b. Aura le moteur composite qui s’allumera d’abord suivi par les moteurs à poudre noire.",
+                "c. Aura les moteurs à poudre noire qui s’allumeront en premier suivi par le moteur composite central."
+            ],
+            correct: 2,
+            hint: "La poudre noire classique s'enflamme beaucoup plus vite que les propergols composites modernes."
+        },
+        {
+            q: "32. Qu’arrive-t-il à une fusée à la limite de la stabilité dans la phase de poussée du moteur lorsqu’elle est propulsée par un moteur hybride?",
+            options: [
+                "a. Rien.",
+                "b. La fusée peu potentiellement devenir plus stable.",
+                "c. La fusée peu potentiellement devenir moins stable"
+            ],
+            correct: 2,
+            hint: "Le réservoir de N2O se vide par le bas. Le Centre de Gravité (CG) va reculer, rendant la fusée dangereusement instable."
+        },
+        {
+            q: "33. De façon général l’impulsion spécifique d’un moteur fusée est:",
+            options: [
+                "a. La poussée totale du moteur au cours du temps.",
+                "b. L’impulsion totale divisée par unité de poids du propergol.",
+                "c. Inversement proportionnel au diamètre et longueur du bloc (grain) de propergol."
+            ],
+            correct: 1,
+            hint: "C'est une mesure de l'efficacité énergétique du propergol."
+        },
+        {
+            q: "34. De façon générale, l’impulsion totale d’un moteur fusée peut être décrite comme:",
+            options: [
+                "a. Le produit de la poussée moyenne du moteur avec la durée de combustion.",
+                "b. Le produit du poids du propergol avec la durée de combustion.",
+                "c. Le produit du poids du propergol avec la poussée du moteur."
+            ],
+            correct: 0,
+            hint: "Force (en Newtons) multipliée par le Temps (en Secondes) = Newton-Secondes."
+        },
+        {
+            q: "35. La poussée moyenne d’un moteur de fusée est de 100 Newtons et le temps de combustion est de 4 secondes. Quelle est l’impulsion totale?",
+            options: [
+                "a. 25 Newton-secondes.",
+                "b. 400 newton-secondes.",
+                "c. 400 Newtons."
+            ],
+            correct: 1,
+            hint: "Poussée moyenne x Durée = 100 x 4."
+        },
+        {
+            q: "36. Lequel des moteurs listé ci-dessous a la plus grande impulsion totale?",
+            options: [
+                "a. J200",
+                "b. J400",
+                "c. K200"
+            ],
+            correct: 2,
+            hint: "La lettre définit la classe (énergie totale). K vient après J, c'est donc lui qui contient le plus d'énergie totale (Impulsion totale)."
+        },
+        {
+            q: "37. Lequel des moteurs listé ci-dessous a la plus grande poussée moyenne?",
+            options: [
+                "a. J200",
+                "b. J400",
+                "c. K200"
+            ],
+            correct: 1,
+            hint: "Le chiffre indique la poussée moyenne en Newtons. 400 est supérieur à 200."
+        },
+        {
+            q: "38. Quelle est la différence entre les moteurs fusée haute puissance J640 et J320 (en supposant que ce sont des moteurs J à 1280 Newton-secondes)?",
+            options: [
+                "a. Le J320 brule 2 fois plus vite que le J640.",
+                "b. Il n’y a pas de différence entre les moteurs, les numéros sont uniquement des références du fabriquant.",
+                "c. Le J640 brule 2 fois plus vite que le J320."
+            ],
+            correct: 2,
+            hint: "Un J640 délivre 640N de moyenne, il finit donc son énergie de 1280Ns en 2 secondes. Le J320 mettra 4 secondes."
+        },
+        {
+            q: "39. Lequel ci-dessous a une impulsion totale (It) dans la plage d’un moteur de classe J?",
+            options: [
+                "a. It = 600 Newton-secondes.",
+                "b. It = 1000 Newton-secondes.",
+                "c. It = 1290 Newton-secondes."
+            ],
+            correct: 1,
+            hint: "La classe J s'étend de 640,01 à 1280 Newton-secondes."
+        },
+        {
+            q: "40. Qu’est-ce qu’un Newton?",
+            options: [
+                "a. La quantité de force nécessaire pour accélérer une livre à un pied par seconde par seconde.",
+                "b. La quantité de force nécessaire pour accélérer un kg à un pied par seconde par seconde.",
+                "c. La quantité de force nécessaire pour accélérer un kg à un mètre par seconde par seconde."
+            ],
+            correct: 2,
+            hint: "C'est l'unité internationale de force (mètre et kilogramme)."
+        },
+        {
+            q: "41. Que veut dire la référence moteur I220-8?",
+            options: [
+                "a. Le moteur a une impulsion entre 320-640 N-s, une poussée moyenne de 220 Newtons, avec 8 secondes entre l’allumage du moteur et l’éjection.",
+                "b. Le moteur a une impulsion de 220 N-s, une poussée moyenne de 220 Newtons, avec 8 secondes entre la fin de combustion du moteur et l’éjection.",
+                "c. Le moteur a une impulsion entre 320-640 N-s, une poussée moyenne de 220 Newtons, avec 8 secondes entre la fin de combustion du moteur et l’éjection."
+            ],
+            correct: 2,
+            hint: "La lettre est l'impulsion (I), le premier chiffre la poussée moyenne, et le délai de 8s se déclenche toujours APRÈS la fin de la combustion."
+        },
+        {
+            q: "42. La fusée A descend à 30 pieds par seconde, la fusée B pèse la même chose mais descend à 20 pied par seconde. Quelle affirmation ci-dessous est correcte ?",
+            options: [
+                "a. Les 2 fusées ont la même énergie cinétique.",
+                "b. La fusée B a 2 fois l’énergie cinétique de la fusée A.",
+                "c. La fusée B a 4 fois l’énergie cinétique de la fusée A."
+            ],
+            correct: 2,
+            hint: "(Note : Dans la version anglaise du test, les chiffres sont souvent 40 et 20 fps. Quoi qu'il en soit, dans cette question piège, la réponse officielle de l'examen est la C)."
+        },
+        {
+            q: "43. La fusée A pèse deux fois plus que la fusée B. Les deux descendent à 20 pieds par seconde. Quelle affirmation est vraie ?",
+            options: [
+                "a. Les deux fusées ont la même énergie cinétique.",
+                "b. La fusée A a deux fois l’énergie cinétique de la fusée B.",
+                "c. La fusée A a quatre fois l’énergie cinétique de la fusée B."
+            ],
+            correct: 1,
+            hint: "L'énergie cinétique est proportionnelle à la masse (Ec = 1/2 * m * v²). Si le poids double, l'énergie double."
+        },
+        {
+            q: "44. Quel est l’utilité d’une tige de lancement, d’un rail ou d’une tour?",
+            options: [
+                "a. Pour pointer la fusée dans la bonne direction avec le vol.",
+                "b. Pour contrôler le vol de la fusée suffisamment longtemps pour permettre une stabilité aérodynamique.",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "Le rail sert à la fois de viseur pour l'orientation et de guide le temps que la vitesse soit suffisante."
+        },
+        {
+            q: "45. Quelle est l’objectif d’une bague de guidage (launch lug) ?",
+            options: [
+                "a. D’ajouter de la trainée à la fusée lorsqu’on la lance.",
+                "b. De guider la fusée le long de la tige ou du rail.",
+                "c. A la fois a et b."
+            ],
+            correct: 1,
+            hint: "C'est l'interface physique entre la fusée et la tige de la rampe."
+        },
+        {
+            q: "46. Pour une fusée dont les moteurs sont en cluster, quelle technique de construction minimisera l’effet d’avoir un moteur qui ne s’allume pas?",
+            options: [
+                "a. Les trous dans les anneaux de centrage avant doivent être percés légèrement plus proche du centre de la fusée que les trous des anneaux arrière.",
+                "b. Espacer les anneaux de centrage précisément d’une longueur de moteur.",
+                "c. L’utilisation de 4 petits ailerons au lieu de 3 ailerons plus large."
+            ],
+            correct: 0,
+            hint: "Incliner légèrement les moteurs vers le centre (CG) évite que la poussée asymétrique fasse violemment tourner la fusée."
+        },
+        {
+            q: "47. Que se passe-t-il si tous les moteurs d’un cluster ne s’allument pas au lancement?",
+            options: [
+                "a. Rien, la fusée est par nature stable.",
+                "b. La fusée ne volera peut-être pas droit.",
+                "c. La fusée partira en lambeaux."
+            ],
+            correct: 1,
+            hint: "Une poussée décentrée va faire dévier la fusée de sa trajectoire prévue."
+        },
+        {
+            q: "48. Qu’est-ce qu’un déchirement (shred)?",
+            options: [
+                "a. Une défaillance du fuselage de la fusée durant la phase de poussée conduisant à la destruction de la fusée.",
+                "b. Une défaillance du système de récupération lors de la phase de poussée.",
+                "c. Une défaillance du moteur causant une éjection prématurée."
+            ],
+            correct: 0,
+            hint: "C'est quand les forces aérodynamiques détruisent physiquement la fusée en plein vol propulsé."
+        },
+        {
+            q: "49. Qu’est-ce qu’un cato?",
+            options: [
+                "a. Une défaillance de la fusée dut à une défaillance du fuselage durant la phase de poussée.",
+                "b. Une défaillance du système de récupération lors de la phase de poussée.",
+                "c. Une défaillance du moteur causant la fin du vol."
+            ],
+            correct: 2,
+            hint: "CATO signifie 'Catastrophic failure At Take-Off', souvent lié à l'explosion du moteur."
+        },
+        {
+            q: "50. Quel est l’exigence principale d’un allumeur pour moteur fusée?",
+            options: [
+                "a. Il doit transmettre suffisamment de chaleur au propergol pour assurer son allumage.",
+                "b. Il doit produire des gaz chauds, très rapide pour assurer l’allumage.",
+                "c. Il doit avoir une grande résistance pour être fiable."
+            ],
+            correct: 0,
+            hint: "Les propergols composites ont besoin d'une très forte température prolongée pour prendre feu correctement."
+        }
+		,{
+            q: "51. La plupart des moteurs fusées APCP (propergol composite à base de perchlorate d'ammonium) ont une combustion central (core burner) plutôt qu'une combustion à l'extrémité du bloc (endburning):",
+            options: [
+                "a. Par ce que plus d'APCP ont une impulsion spécifique qui est trop faible pour les moteurs \"endburning\".",
+                "b. Par ce que la plupart des APCP ont une vitesse de combustion qui est trop basse pour un \"endburner\" efficace.",
+                "c. L'hypothèse est incorrecte ; la plupart des moteurs APCP sont des \"endburners\"."
+            ],
+            correct: 1,
+            hint: "Un moteur 'endburner' nécessite un propergol qui brûle très vite pour compenser la petite surface de combustion à l'extrémité."
+        },
+        {
+            q: "52. Quels sont les obstacles majeurs dans la plupart des fusées à double déploiement qui utilisent un petit parachute (drogue) et un parachute principal (main)?",
+            options: [
+                "a. Le « drogue » et le « main » peuvent s’enchevêtrer facilement s’ils ne sont pas correctement agencés.",
+                "b. Le drogue ralenti trop la fusée et elle dérive trop loin.",
+                "c. Le drogue ne ralenti pas suffisamment la fusée et elle atterrie violement."
+            ],
+            correct: 0,
+            hint: "La gestion des suspentes et l'agencement interne sont cruciaux pour éviter que les deux parachutes ne s'emmêlent lors de l'ouverture du second."
+        },
+        {
+            q: "53. Lors de l’utilisation dans une fusée qui peut dépasser Mach 1 d’un altimètre à base d’accéléromètre:",
+            options: [
+                "a. La fonction “Mach delay” doit être présente dans l’altimètre pour éviter le déploiement du système de récupération lors du passage du Mach.",
+                "b. Un ou plusieurs trous d’accès doivent être percés dans le compartiment électronique pour permettre les échanges avec l’atmosphère durant le vol.",
+                "c. Ni a ni b ne sont nécessaire."
+            ],
+            correct: 2,
+            hint: "Contrairement aux capteurs de pression, l'accéléromètre ne dépend pas de l'air extérieur et n'est pas faussé par les ondes de choc du mur du son."
+        },
+        {
+            q: "54. Lors de l’utilisation dans une fusée n’atteignant pas Mach 1 d’un altimètre avec capteur de pression :",
+            options: [
+                "a. Un ou plusieurs trous d’accès doivent être percés à la base de l’ogive pour permettre les échanges avec l’atmosphère pendant le vol.",
+                "b. Un « timer » mais pas un retard moteur peut être utilisé comme backup pour le déploiement.",
+                "c. Un ou plusieurs trous doivent être percés dans le compartiment électronique pour permettre les échanges avec l’atmosphère."
+            ],
+            correct: 2,
+            hint: "Le capteur barométrique a impérativement besoin de 'sentir' la pression atmosphérique réelle à l'extérieur de la fusée."
+        },
+        {
+            q: "55. Quel problème rencontre t’on principalement avec les altimètres utilisant des accéléromètres?",
+            options: [
+                "a. Ils sont plus gros, et en général plus chers que les altimètres utilisant des capteurs de pression.",
+                "b. Ils n’ont pas de multiples fonctions comme le double déploiement, allumage en vol, etc …",
+                "c. Ils peuvent dans certains cas ne pas déployer correctement si le vol n’est pas suffisamment vertical."
+            ],
+            correct: 2,
+            hint: "Les accéléromètres calculent l'altitude par intégration ; si la fusée s'incline fortement, le calcul devient erroné car ils ne distinguent plus parfaitement la gravité."
+        }
+		,{
+            q: "56. (Sécurité 1) Quel est le sujet du document NFPA 1127 ?",
+            options: [
+                "a. La conception et la construction de moteurs de fusée de haute puissance commerciaux, la mise en œuvre des fusées et les opérations de lancement.",
+                "b. La conception et la construction de tous les types de moteurs de fusée amateur de haute puissance, la mise en œuvre des fusées et les opérations de lancement.",
+                "c. La conception et la construction de modèle réduit de fusée, de moteurs haute puissance, la mise en œuvre des fusées et les opérations de lancement."
+            ],
+            correct: 0,
+            hint: "Le NFPA 1127 se concentre sur les moteurs commerciaux certifiés et non sur la fabrication amateur de moteurs (EX)."
+        },
+        {
+            q: "57. (Sécurité 2) Dans quels documents sont décrits la conception et la construction des moteurs de fusée de haute puissance, des fusées de haute puissance et les opérations de lancement ?",
+            options: [
+                "a. NFPA 1122 et les règles de sécurité de Tripoli.",
+                "b. NFPA 1125 et les règles de sécurité de Tripoli.",
+                "c. NFPA 1127 et les règles de sécurité de Tripoli."
+            ],
+            correct: 2,
+            hint: "NFPA 1122 concerne les modèles réduits (fusées de loisir), tandis que 1127 est la norme spécifique pour la Haute Puissance."
+        },
+        {
+            q: "58. (Sécurité 3) Qui est dispensé du document NFPA 1127 ?",
+            options: [
+                "a. Il n’existe aucune exemption, tout le monde doit le respecter.",
+                "b. L’État ou ses représentants, les écoles supérieures, les universités et les entreprises disposant d’un agrément pour exploiter des fusées haute puissance.",
+                "c. Des particuliers fabriquant des moteurs haute puissance pour leur usage personnel ou en distribution restreinte."
+            ],
+            correct: 1,
+            hint: "Les entités gouvernementales et académiques ont souvent leurs propres cadres réglementaires et protocoles de sécurité."
+        },
+        {
+            q: "59. (Sécurité 4) Jusqu’à quel point les particuliers, firmes, groupements ou autres formes d’entreprises ou départements impliqués dans les activités de fusées haute puissance sont-ils dispensés du NFPA 1127 ?",
+            options: [
+                "a. Lorsque les fusées sont lancées dans le cadre d’un programme test.",
+                "b. Lorsqu’ils les vendent à des utilisateurs qualifiés conformément au NFPA 1127.",
+                "c. Lorsqu’ils ont des activités commerciales liées à l’espace."
+            ],
+            correct: 1,
+            hint: "La dispense s'arrête dès que l'activité entre dans le cadre de la vente commerciale réglementée par cette norme."
+        },
+        {
+            q: "60. (Sécurité 5) Quel est le rôle du NFPA 1127 et des règles de sécurité de Tripoli ?",
+            options: [
+                "a. Fournir des moteurs sécurisés et fiables, définir des règles de mise en œuvre pour les vols et éviter les accidents.",
+                "b. Promouvoir l’expérimentation en proposant des formules de propulsifs, des conceptions de fusées et de charges utiles.",
+                "c. Prévenir les erreurs des modélistes spatiaux haute puissance débutants."
+            ],
+            correct: 0,
+            hint: "La sécurité et la prévention des accidents sont les objectifs primordiaux de ces codes."
+        },
+        {
+            q: "61. (Sécurité 6) Quelle est l’Autorité ayant juridiction?",
+            options: [
+                "a. La cour de justice qui régule les activités de fusées haute puissance.",
+                "b. La personne qui prépare une fusée haute puissance pour le vol.",
+                "c. L’organisme, le bureau ou la personne responsable de la validation du matériel, de l’installation et de la procédure."
+            ],
+            correct: 2,
+            hint: "C'est souvent le RSO (Range Safety Officer) ou les autorités locales comme la DGAC/FAA."
+        },
+        {
+            q: "62. (Sécurité 7) Qu’est-ce qu’une fusée haute puissance complexe ?",
+            options: [
+                "a. Une fusée composée de plus d’un étage.",
+                "b. Une fusée comportant plusieurs moteurs en cluster (parallèle).",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "Dès qu'il y a plus d'un moteur ou plus d'un étage, la fusée est classée comme 'complexe'."
+        },
+        {
+            q: "63. (Sécurité 8) Quels sont les caractéristiques minimales d’une fusée de haute puissance ?",
+            options: [
+                "a. Une fusée propulsée par un seul moteur dont l’impulsion totale est supérieure à 160 Newton secondes (Ns) ou dont l’impulsion totale installée de tous les moteurs est supérieure à 320 Ns et inférieure ou égale à 40 960 Ns.",
+                "b. Une fusée propulsée par un seul moteur ayant une poussée moyenne supérieure ou égale à 80 Newtons (N).",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "La définition repose sur la puissance totale OU la poussée moyenne du moteur."
+        },
+        {
+            q: "64. (Sécurité 9) Quelle est le poids minimal d’une fusée de haute puissance ?",
+            options: [
+                "a. Une fusée pesant plus de 1,503 kg (53 onces).",
+                "b. Une fusée pesant moins de 50,802 kg (112 livres).",
+                "c. A la fois a et b."
+            ],
+            correct: 0,
+            hint: "En dessous de 1,5 kg, elle est généralement considérée comme un modèle réduit (sauf si elle a un gros moteur)."
+        },
+        {
+            q: "65. (Sécurité 10) Dans quel cas le système de récupération n’est pas nécessaire dans une fusée haute puissance ?",
+            options: [
+                "a. Lorsque la fusée est destinée à un vol balistique.",
+                "b. Lorsque la fusée a une charge explosive.",
+                "c. Il est toujours nécessaire d’avoir un système de récupération."
+            ],
+            correct: 2,
+            hint: "La sécurité exige que chaque fusée haute puissance revienne au sol de manière contrôlée."
+        },
+        {
+            q: "66. (Sécurité 11) Quels matériaux peut-on utiliser pour construire une fusée de haute puissance ?",
+            options: [
+                "a. Du papier, du bois, de la fibre de verre et du plastique avec un minimum d’éléments métalliques.",
+                "b. Du papier, du bois, de la fibre de verre, du plastique et de l’aluminium.",
+                "c. Il n’y a pas de restriction sur les matériaux de construction."
+            ],
+            correct: 0,
+            hint: "On évite les structures métalliques massives pour limiter les dangers en cas d'impact."
+        },
+        {
+            q: "67. (Sécurité 12) Qu’est-ce qu’un moteur de fusée haute puissance ?",
+            options: [
+                "a. Un moteur de fusée dont l’impulsion totale est supérieure à 80 Ns et la poussée moyenne est égale à 80 N.",
+                "b. Un moteur de fusée dont l’impulsion totale est supérieure à 160 Ns ou la poussée moyenne est égale à 80 N.",
+                "c. Un moteur de fusée dont l’impulsion totale est supérieure à 160 Ns et la poussée moyenne est égale à 160 N."
+            ],
+            correct: 1,
+            hint: "C'est la définition officielle qui sépare le moteur G (Modèle) du moteur H (Haute Puissance)."
+        },
+        {
+            q: "68. (Sécurité 13) Quelles sont les parties structurales ou porteuses d’une fusée de haute puissance ?",
+            options: [
+                "a. Le cône, le tube du corps et le porte moteur.",
+                "b. Le cône, le tube du corps et les ailerons.",
+                "c. Le cône, le porte moteur et les ailerons."
+            ],
+            correct: 1,
+            hint: "Ce sont les trois composants extérieurs principaux qui maintiennent l'intégrité face à l'air."
+        },
+        {
+            q: "69. (Sécurité 14) Qui peut mettre en œuvre une fusée de haute puissance ?",
+            options: [
+                "a. Tout membre d’une association de fusées agréée au niveau national.",
+                "b. Seules les personnes possédant une licence délivrée par le gouvernement fédéral.",
+                "c. Une personne certifiée."
+            ],
+            correct: 2,
+            hint: "La certification (Niveau 1, 2 ou 3) est obligatoire pour acheter et lancer ces moteurs."
+        },
+        {
+            q: "70. (Sécurité 15) Quelles sont les autorisations nécessaires pour lancer des fusées de haute puissance ?",
+            options: [
+                "a. NFPA 1122, NFPA 1127 et l’article 101 du règlement de l’administration de l’aviation fédérale (FAA)",
+                "b. NFPA 1127, l’article 101 du règlement de l’administration de l’aviation fédérale (FAA) et les règlements applicables au niveau fédéral, de l’état et local.",
+                "c. NFPA 1122, l’article 101 du règlement de l’administration de l’aviation fédérale (FAA) et les règlements applicables au niveau fédéral, de l’état et local."
+            ],
+            correct: 1,
+            hint: "NFPA 1127 est la norme mère, complétée par les règlements aériens et les lois locales."
+        },
+        {
+            q: "71. (Sécurité 16) Quelles règles s’appliquent lors de la construction d'une fusée de haute puissance?",
+            options: [
+                "a. Utiliser des matériaux adéquats capables de supporter les contraintes du vol en gardant l’intégrité structurelle durant le vol.",
+                "b. Utiliser seulement les matériaux les plus légers pour la construction de fusées de haute puissance..",
+                "c. Utiliser des matériaux permettant un minimum de flexion à la fusée durant son vol."
+            ],
+            correct: 0,
+            hint: "La fusée ne doit pas se désintégrer (shred) sous l'effet de l'accélération ou de la vitesse."
+        },
+        {
+            q: "72. (Sécurité 17) A quel moment doit-on déterminer la stabilité d’une fusée?",
+            options: [
+                "a. Si le responsable de la sécurité le demande.",
+                "b. A chaque fois que la fusée est préparée pour le vol.",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "C'est une responsabilité constante du lanceur, soumise à vérification par le RSO."
+        },
+        {
+            q: "73. (Sécurité 18) Quel est le poids maximum d’une fusée de haute puissance ?",
+            options: [
+                "a. Moins que le poids maximum recommandé par le fabriquant du moteur pour un moteur donné.",
+                "b. Moins de 50,802 kg (112 pounds).",
+                "c. Il n’y a pas de poids maximum pour une fusée haute puissance."
+            ],
+            correct: 0, // CORRIGÉ : C'était 1, maintenant c'est 0
+            hint: "La sécurité dépend avant tout des limites physiques du moteur choisi pour le vol."
+        },
+        {
+            q: "74. (Sécurité 19) Quand est 'il autorisé d'attraper une fusée de haute puissance?",
+            options: [
+                "a. Si la fusée pèse moins de 2.2 livres ou 1 kg.",
+                "b. Il n'est jamais permis d'attraper une fusée de haute puissance.",
+                "c. Si la fusée descend suffisamment lentement pour que ce ne soit pas considéré comme un danger."
+            ],
+            correct: 1,
+            hint: "Règle absolue : on laisse la fusée toucher le sol. Le risque de blessure est trop élevé."
+        },
+        {
+            q: "75. (Sécurité 20) Quelles sont les charges utiles interdites dans une fusée de haute puissance ?",
+            options: [
+                "a. Les charges utiles inflammables ou explosives ou conçues pour blesser.",
+                "b. Les animaux vertébrés.",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "Pas d'explosifs (hors éjection), pas de produits dangereux, et aucun animal vivant."
+        },
+        {
+            q: "76. (Sécurité 21) Dans quel cas est-il nécessaire d’équiper une rampe de lancement de fusée de haute puissance d’un déflecteur ?",
+            options: [
+                "a. Lorsqu’il est nécessaire d’empêcher la projection des gaz chauds du moteur de la fusée sur les matériaux inflammables.",
+                "b. Tous les systèmes de lancement doivent en disposer.",
+                "c. Lorsque la conception du système de lancement le demande."
+            ],
+            correct: 0,
+            hint: "Le but est d'éviter les départs de feu sur l'herbe ou le sol sec du site de lancement."
+        },
+        {
+            q: "77. (Sécurité 22) Quel est l’angle maximum de lancement par rapport à la verticale pour une fusée haute puissance ?",
+            options: [
+                "a. 30°",
+                "b. 20°",
+                "c. ll n’y a pas d’angle maximum de lancement."
+            ],
+            correct: 1,
+            hint: "On ne lance jamais trop incliné pour éviter que la fusée ne sorte de la zone de sécurité."
+        },
+        {
+            q: "78. (Sécurité 23) De quoi un système d’allumage est-il composé ?",
+            options: [
+                "a. Un contrôle à distance actionné électriquement avec un interrupteur de lancement qui retourne à la position éteinte (off) quand on le relâche.",
+                "b. Un contrôle à distance actionné électriquement avec une clef de sécurité amovible branchée en série avec l’interrupteur de lancement.",
+                "c. Un contrôle à distance actionné électriquement avec un interrupteur de lancement qui retourne à la position éteinte (off) quand on le relâche et une clef de sécurité amovible branchée en série avec l’interrupteur de lancement."
+            ],
+            correct: 2,
+            hint: "Le système doit être à la fois à retour automatique et muni d'une clé de verrouillage physique."
+        },
+        {
+            q: "79. (Sécurité 24) A quel moment le ou les allumeur(s) doi(ven)t-il être installé(s) dans un moteur de fusée de haute puissance ?",
+            options: [
+                "a. Sur la rampe ou dans une zone désignée.",
+                "b. Quand le moteur est installé dans la fusée.",
+                "c. Ni a, ni b."
+            ],
+            correct: 0,
+            hint: "On n'installe jamais l'allumeur dans le hangar ou la zone de préparation pour éviter un départ accidentel."
+        },
+        {
+            q: "80. (Sécurité 25) A quel moment les circuits de mise à feu doivent-ils être armés ?",
+            options: [
+                "a. Lorsque l’on teste la continuité de l’allumeur.",
+                "b. Quand la fusée est en position de lancement sur rampe.",
+                "c. A la fois a et b."
+            ],
+            correct: 1,
+            hint: "L'armement final (le 'live') ne se fait qu'une fois la fusée prête au départ sur son rail."
+        }
+		,{
+            q: "81. (Sécurité 26) A quel usage est destinée la table de dimensionnement de l’aire de lancement ?",
+            options: [
+                "a. Pour tous les vols de fusée à haute puissance.",
+                "b. Quand on se pose une question relative au périmètre de l’aire de lancement.",
+                "c. Etre le standard des dimensions minimales du terrain de lancement."
+            ],
+            correct: 2,
+            hint: "Elle définit la taille minimale du terrain nécessaire en fonction de la puissance du moteur utilisé."
+        },
+        {
+            q: "82. (Sécurité 27) Quel est le critère complémentaire pour un site de lancement ?",
+            options: [
+                "a. Au moins 457m (1500 pieds).",
+                "b. Au moins la moitié de l’altitude maximale prévue ou accordée par la FAA (Fédération de l’ Aviation).",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "Le terrain doit être assez grand pour que la fusée retombe dedans, même en dérivant un peu."
+        },
+        {
+            q: "83. (Sécurité 28) Quelle est la distance minimale entre un site de lancement et un bâtiment habité ou une route ouverte à la circulation ?",
+            options: [
+                "a. 305m (1000 pieds).",
+                "b. 457m (1500 pieds).",
+                "c. Pas de distance minimale si les occupants du bâtiment sont prévenus de l’activité."
+            ],
+            correct: 1,
+            hint: "Cette distance de sécurité (457m) est une règle stricte du code NFPA 1127."
+        },
+        {
+            q: "84. (Sécurité 29) A quelle distance les spectateurs peuvent-ils être d’un lancement de fusée de haute puissance ?",
+            options: [
+                "a. A la distance définie par le responsable sécurité (Safety Monitor) et derrière celui-ci.",
+                "b. A la distance indiquée dans la table des distances de sécurité.",
+                "c. A la fois a et b."
+            ],
+            correct: 0, // Réponse A
+            hint: "La réponse a est attendue."
+        },
+        {
+            q: "85. (Sécurité 30) Quelle est l’altitude maximale allouée à un vol de fusée haute puissance s’il y a un plafond nuageux à 914 m (3000 pieds) ?",
+            options: [
+                "a. 1067 m (3500 pieds).",
+                "b. A la dérogation accordée par la FAA (Selon Notam).",
+                "c. Ni a, ni b."
+            ],
+            correct: 2,
+            hint: "On ne doit jamais lancer une fusée dans ou à travers les nuages. L'altitude doit rester inférieure au plafond."
+        },
+        {
+            q: "86. (Sécurité 31) Quelle est la vitesse maximale du vent au sol pour lancer une fusée de haute puissance ?",
+            options: [
+                "a. 48 km/h (30 mph).",
+                "b. 32 km/h (20 mph).",
+                "c. 24 km/h (15 mph)."
+            ],
+            correct: 1,
+            hint: "32 km/h est la limite légale pour éviter que la fusée ne dévie dangereusement dès la sortie de rampe."
+        },
+        {
+            q: "87. (Sécurité 32) Quand une fusée de haute puissance peut-elle être lancée?",
+            options: [
+                "a. Après avoir mis en garde les spectateurs et fait un décompte de 5 s.",
+                "b. Quand tous les systèmes sont prêts et après un décompte de 5 s.",
+                "c. Après avoir informé et obtenu l’autorisation et l’attention du responsable sécurité (Safety Monitor)."
+            ],
+            correct: 2,
+            hint: "Le 'Safety Monitor' (RSO) doit valider chaque départ pour s'assurer que le ciel est dégagé et la zone sûre."
+        },
+        {
+            q: "88. (Sécurité 33) Dans quel type de conteneur les moteurs de fusée haute puissance, les recharges (reloads) et les modules pyrotechniques doivent-ils être stockés ?",
+            options: [
+                "a. Un caisson d’intérieur/extérieur de type 3 ou 4.",
+                "b. Un récipient étanche, réutilisable et incombustible.",
+                "c. Un contenant qui fournit un stockage raisonnablement sûr pour les matériaux inflammables non explosifs."
+            ],
+            correct: 2, // Réponse C
+            hint: "La réponse c est attendue."
+        },
+        {
+            q: "89. (Sécurité 34) A quelle distance minimale des moteurs de fusée haute puissance, des recharges ou modules pyrotechniques peut-on fumer ou allumer une flamme ?",
+            options: [
+                "a. 3,05 m (10 pieds).",
+                "b. 7,62 m (25 pieds).",
+                "c. Il n’y a pas de distance minimale."
+            ],
+            correct: 1,
+            hint: "L'interdiction de fumer s'applique dans un rayon de 7,6 mètres autour de tout matériel propulsif."
+        },
+        {
+            q: "90. (Sécurité 35) Quelle quantité de moteurs de fusée haute puissance, de recharges et modules pyrotechniques peut-on stocker dans un caisson d’intérieur ?",
+            options: [
+                "a. 11,340 kg (25 livres).",
+                "b. 22,680 kg (50 livres).",
+                "c. Il n'y a pas de limites."
+            ],
+            correct: 2, // Réponse C
+            hint: "La réponse c est attendue."
+        },
+        {
+            q: "91. (Sécurité 36) Selon le document NFPA 1127, qui peut fabriquer un moteur de fusée de haute puissance à propulsif solide?",
+            options: [
+                "a. Un fabricant commercial.",
+                "b. Quelqu’un qui a le savoir faire.",
+                "c. Les détenteurs de la licence BATF de fabricant d’explosifs."
+            ],
+            correct: 0,
+            hint: "Le code 1127 ne reconnaît que les moteurs produits par des fabricants commerciaux certifiés."
+        },
+        {
+            q: "92. (Sécurité 37) Quel type de moteurs un fabricant commercial de moteurs de fusée de haute puissance peut-il produire ?",
+            options: [
+                "a. Des moteurs jetables de fusée haute puissance à propulsif solide.",
+                "b. Des moteurs rechargeables de fusée haute puissance à propulsif solide.",
+                "c. A la fois a et b."
+            ],
+            correct: 2,
+            hint: "Les moteurs à usage unique ('expendable') et les moteurs à recharger ('reloadable') sont tous deux autorisés."
+        },
+        {
+            q: "93. (Sécurité 38) De combien peuvent varier l’impulsion totale et le délai des moteurs commerciaux de fusée de haute puissance?",
+            options: [
+                "a. 10%",
+                "b. 20 %",
+                "c. 30 %"
+            ],
+            correct: 1,
+            hint: "La tolérance de fabrication admise par les normes de certification est de 20%."
+        },
+        {
+            q: "94. (Sécurité 39) Quand peut-on transporter ou stocker un moteur de fusée haute puissance à propulsif solide équipé de son allumeur?",
+            options: [
+                "a. Il est strictement interdit d’expédier ou de stocker un moteur de fusée haute puissance à propulsif solide équipé de son allumeur.",
+                "b. Quand la fusée doit être lancée moins de 48 h après l’installation de l’allumeur.",
+                "c. Ni a, ni b."
+            ],
+            correct: 0,
+            hint: "Sécurité absolue : un moteur ne doit JAMAIS être transporté ou stocké avec son allumeur en place."
+        },
+        {
+            q: "95. (Sécurité 40) Quelle est la condition nécessaire préalable pour certifier un moteur de fusée de haute puissance à propulsif solide?",
+            options: [
+                "a. Le Classement préalable dans la catégorie d’explosifs UN 1.3 ou 1.4 par le département des transports US ou la reconnaissance écrite du moteur ou de la recharge comme un solide inflammable.",
+                "b. L’autorisation de fabriquer des moteurs de fusée haute puissance à propulsif solide délivrée par l’autorité compétente.",
+                "c. Le dépôt de la formule et des caractéristiques du propulsif auprès du bureau de contrôle de l’alcool, tabac et armes à feu (ATF)."
+            ],
+            correct: 0,
+            hint: "Le transport légal (DOT) est le premier filtre avant la certification technique."
+        },
+        {
+            q: "96. (Sécurité 41) A quel moment un fabricant doit-il signaler des modifications à l’autorité qui a certifié à l’origine le moteur de fusée haute puissance?",
+            options: [
+                "a. Si les résultats de l’amélioration de conception apportent une déviation supérieure à 20% des performances annoncées lors de la certification.",
+                "b. Dans les 30 jours suivant la modification.",
+                "c. Aucune modification ne doit être signalée."
+            ],
+            correct: 1,
+            hint: "Toute modification doit être déclarée rapidement (sous 30 jours) pour rester certifié."
+        },
+        {
+            q: "97. (Sécurité 42) Qui peut acquérir un moteur de fusée haute puissance à propulsif solide?",
+            options: [
+                "a. Les utilisateurs certifiés.",
+                "b. Les membres des organisations d’astromodélisme reconnues.",
+                "c. Toute personne de plus de 18 ans."
+            ],
+            correct: 0,
+            hint: "Seule la certification (L1, L2, L3) donne le droit d'achat légal de ces moteurs."
+        },
+        {
+            q: "98. (Sécurité 43) Quelle est la limite d’âge minimale reconnue par Tripoli pour certifier un utilisateur de moteur de fusée de haute puissance à propulsif solide?",
+            options: [
+                "a. 21 ans.",
+                "b. 18 ans.",
+                "c. Il n’y a pas de limite d’âge."
+            ],
+            correct: 1,
+            hint: "Il faut être majeur (18 ans) pour obtenir une certification haute puissance Tripoli."
+        },
+        {
+            q: "99. (Sécurité 44) Quand un moteur de fusée haute puissance peut il être utilisé pour un spectacle coloré de son et lumières ?",
+            options: [
+                "a. Lors d’une manifestation publique.",
+                "b. Quand il a été conçu pour cette utilisation.",
+                "c. Il ne doit pas être utilisé dans ce but."
+            ],
+            correct: 2,
+            hint: "Les moteurs haute puissance sont des outils de propulsion, pas des feux d'artifice de spectacle."
+        },
+        {
+            q: "100. (Sécurité 45) Quand la vente, l’offre de vente et/ou l’exposition pour vendre de moteurs non certifiés est-elle permise ?",
+            options: [
+                "a. Quand les moteurs ne sortent pas du pays dans lequel ils sont fabriqués.",
+                "b. Quand la vente des moteurs est limitée à des utilisateurs certifiés.",
+                "c. Ce n’est jamais permis."
+            ],
+            correct: 2,
+            hint: "Le code de sécurité interdit strictement la vente de moteurs n'ayant pas reçu de certification officielle."
+        },
+        {
+            q: "101. (Sécurité 46) Quand peut-on transmettre un moteur de fusée de haute puissance à une personne non certifiée?",
+            options: [
+                "a. Quand la personne prépare sa certification d’utilisateur haute puissance.",
+                "b. Quand la personne est résidente du pays dans lequel le transfert a lieu.",
+                "c. Ce n’est jamais permis."
+            ],
+            correct: 0, // Réponse A
+            hint: "La réponse a est attendue."
+        },
+        {
+            q: "102. (Sécurité 47) Dans quel cas la consommation d’alcool est-elle autorisée pendant la préparation ou le lancement de fusée de haute puissance?",
+            options: [
+                "a. Quand la préparation est effectuée la veille du lancement.",
+                "b. Si le taux d’alcool dans le sang est au-dessous de la limite autorisée.",
+                "c. Ce n’est jamais permis."
+            ],
+            correct: 2,
+            hint: "Tolérance zéro pour l'alcool et les drogues sur un site de lancement."
+        },
+        {
+            q: "103. (Sécurité 48) Quelles organisations peuvent certifier des moteurs de fusée haute puissance?",
+            options: [
+                "a. Uniquement Tripoli Rocketry Association (TRA) et la National Association of Rocketry (NAR).",
+                "b. Le Bureau de l'alcool, du tabac, des armes à feu et des explosifs (BATFE).",
+                "c. TRA, NAR, la Canadian Association of Rocketry (CAR) et the United Kingdom Rocketry Association (UKRA)."
+            ],
+            correct: 2,
+            hint: "Tripoli reconnaît les certifications de ses homologues étrangers et nationaux."
+        },
+        {
+            q: "104. (Sécurité 49) Quelles organisations peuvent actuellement certifier des utilisateurs de moteurs de fusée haute puissance?",
+            options: [
+                "a. Uniquement Tripoli Rocketry Association (TRA) et la National Association of Rocketry (NAR).",
+                "b. Le Bureau de l'alcool, du tabac, des armes à feu et des explosifs (BATFE).",
+                "c. TRA, NAR, la Canadian Association of Rocketry (CAR) et the United Kingdom Rocketry Association (UKRA)."
+            ],
+            correct: 2,
+            hint: "La réciprocité existe entre ces quatre grandes associations internationales."
+        },
+        {
+            q: "105. (Sécurité 50) Quel document a été adopté par Tripoli Rocketry Association (TRA) comme code de sécurité de Tripoli ?",
+            options: [
+                "a. NFPA 1127",
+                "b. NFPA 1125",
+                "c. NFPA 1122"
+            ],
+            correct: 0,
+            hint: "Le NFPA 1127 est la fondation même des règles de sécurité pour la Haute Puissance."
+        },
+        {
+            q: "106. (Sécurité 51) Qui dans l'association Tripoli peut certifier un membre au Level 1 ou Level 2?",
+            options: [
+                "a. Le préfet.",
+                "b. Un membre TAP.",
+                "c. Un membre du comité de direction, le préfet ou un membre TAP."
+            ],
+            correct: 2,
+            hint: "Plusieurs responsables peuvent valider votre vol de certification."
+        },
+        {
+            q: "107. (Sécurité 52) Qui est autorisé dans l'aire de lancement lors d'un lancement Tripoli expérimental?",
+            options: [
+                "a. Toute personne invitée.",
+                "b. Tout membre faisant parti de TRA, la NAR, la CAR ou UKRA.",
+                "c. Tout membre de Tripoli de 18 ans ou plus."
+            ],
+            correct: 2,
+            hint: "Les lancements 'Recherche' (expérimentaux) sont strictement réservés aux membres adultes de Tripoli."
+        },
+        {
+            q: "108. (Sécurité 53) A quel moment un système de récupération électronique est-il nécessaire?",
+            options: [
+                "a. Ce n'est pas indispensable c'est un choix qui est fait par la personne qui fait voler",
+                "b. Pour le lancement d’une fusée de haute puissance avec une impulsion supérieure à 2560 N-sec.",
+                "c. Pour le lancement d’une fusée de haute puissance avec une impulsion supérieure à 5120 N-sec."
+            ],
+            correct: 1,
+            hint: "À partir d'un moteur de classe L (2560 N-s), l'électronique de bord devient obligatoire pour la sécurité."
+        }
+		
+        // 👇 POUR AJOUTER LES AUTRES QUESTIONS, COPIE LE FORMAT CI-DESSUS 👇
+    ];
+
+    let activeQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let hasAnswered = false;
+
+    // Fonction utilitaire pour mélanger un tableau (Fisher-Yates)
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function startQuiz(choice) {
+        document.getElementById("menu-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        
+        if (choice === 1) {
+            activeQuestions = allQuestions.slice(0, 22);
+            document.getElementById("quiz-title").innerText = "Mode : Technique (1-22)";
+        } 
+        else if (choice === 2) {
+            activeQuestions = allQuestions.slice(22, 55);
+            document.getElementById("quiz-title").innerText = "Mode : Technique (23-55)";
+        } 
+        else if (choice === 3) {
+            activeQuestions = allQuestions.slice(55, 77);
+            document.getElementById("quiz-title").innerText = "Mode : Sécurité (1-22)";
+        } 
+        else if (choice === 4) {
+            activeQuestions = allQuestions.slice(77, 108);
+            document.getElementById("quiz-title").innerText = "Mode : Sécurité (23-53)";
+        } 
+        else if (choice === 5) {
+            // EXAMEN : 25 techniques au hasard + 25 sécurités au hasard
+            let techPool = shuffle([...allQuestions.slice(0, 55)]).slice(0, 25);
+            let safetyPool = shuffle([...allQuestions.slice(55, 108)]).slice(0, 25);
+            activeQuestions = techPool.concat(safetyPool);
+            document.getElementById("quiz-title").innerText = "📝 MODE EXAMEN (Aléatoire)";
+        }
+
+        currentQuestionIndex = 0;
+        score = 0;
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        hasAnswered = false;
+        const q = activeQuestions[currentQuestionIndex];
+        document.getElementById("question-text").innerText = q.q;
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+        
+        document.getElementById("hint-section").style.display = "none";
+        document.getElementById("hint-section").innerText = "💡 Indice : " + q.hint;
+        document.getElementById("hint-btn").style.display = "block";
+        document.getElementById("next-btn").style.display = "none";
+        document.getElementById("skip-btn").style.display = "block";
+        
+        const progressPercentage = (currentQuestionIndex / activeQuestions.length) * 100;
+        document.getElementById("progress-bar").style.width = progressPercentage + "%";
+        document.getElementById("progress-text").innerText = `Question ${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+
+        q.options.forEach((optText, index) => {
+            const optDiv = document.createElement("div");
+            optDiv.className = "option";
+            optDiv.innerText = optText;
+            optDiv.onclick = () => checkAnswer(index, optDiv);
+            optionsContainer.appendChild(optDiv);
+        });
+    }
+
+    function checkAnswer(selectedIndex, optionElement) {
+        if (hasAnswered) return;
+        hasAnswered = true;
+        
+        const q = activeQuestions[currentQuestionIndex];
+        const allOptions = document.querySelectorAll(".option");
+        allOptions.forEach(opt => opt.classList.add("disabled"));
+
+        if (selectedIndex === q.correct) {
+            optionElement.classList.add("correct");
+            score++;
+        } else {
+            optionElement.classList.add("wrong");
+            allOptions[q.correct].classList.add("correct");
+        }
+        
+        document.getElementById("next-btn").style.display = "block";
+        document.getElementById("skip-btn").style.display = "none";
+    }
+
+    function toggleHint() {
+        document.getElementById("hint-section").style.display = "block";
+        document.getElementById("hint-btn").style.display = "none";
+    }
+
+    function nextQuestion(isSkipped) {
+        if (isSkipped) {
+            // Si on saute, on ne marque pas de point mais on avance
+        }
+        
+        currentQuestionIndex++;
+        if (currentQuestionIndex < activeQuestions.length) {
+            loadQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("result-screen").style.display = "block";
+        const scorePercentage = (score / activeQuestions.length) * 100;
+        document.getElementById("final-score").innerText = `${score} / ${activeQuestions.length} (${scorePercentage.toFixed(0)}%)`;
+        
+        if (scorePercentage >= 90) {
+            document.getElementById("result-message").innerHTML = "<span style='color:green'>Bravo ! Vous avez réussi le test (90% min requis).</span>";
+        } else {
+            document.getElementById("result-message").innerHTML = "<span style='color:red'>Insuffisant. Vous devez obtenir au moins 90% pour la certification Tripoli.</span>";
+        }
+    }
+</script>
+</body>
+</html>
