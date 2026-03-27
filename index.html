@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JP6TD8707R"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JP6TD8707R');
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Certification Tripoli Niveau 2</title>
@@ -135,6 +146,10 @@
         <button class="menu-btn" onclick="startQuiz(3)">Choix 3 : Sécurité (1 à 22)</button>
         <button class="menu-btn" onclick="startQuiz(4)">Choix 4 : Sécurité (23 à 53)</button>
         <button class="menu-btn" onclick="startQuiz(5)">Choix 5 : 🏁 SIMULATEUR EXAMEN (50 questions aléatoires)</button>
+		
+		<a href="https://www.tripoli.org/content.aspx?page_id=22&club_id=795696&module_id=468687" target="_blank" class="official-link">
+        <span>🌐</span> Page officielle pour la Certification du Level 2 de Tripoli Rocketry Association
+    </a>
     </div>
 
     <div id="quiz-screen">
@@ -153,6 +168,11 @@
             <button class="action-btn skip-btn" id="skip-btn" onclick="nextQuestion(true)">Sauter ⏭️</button>
             <button class="action-btn next-btn" id="next-btn" onclick="nextQuestion(false)">Suivant ➔</button>
         </div>
+		<div style="display: flex; justify-content: center; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+        <button class="action-btn" style="background-color: #607d8b; color: white; width: auto; padding: 8px 25px; border-radius: 30px; font-size: 0.9rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onclick="returnToMenu()">
+            🏠 Retour au Menu
+        </button>
+    </div>
     </div>
 
     <div class="result-container" id="result-screen">
@@ -161,9 +181,7 @@
         <p id="result-message"></p>
         <button class="menu-btn" style="margin-top: 30px;" onclick="location.reload()">Retour au Menu</button>
     </div>
-	<a href="https://www.tripoli.org/content.aspx?page_id=22&club_id=795696&module_id=468687" target="_blank" class="official-link">
-        <span>🌐</span> Page officielle pour la Certification du Level 2 de Tripoli Rocketry Association
-    </a>
+	
 </div>
 
 <script>
@@ -722,544 +740,545 @@
             hint: "Les accéléromètres calculent l'altitude par intégration ; si la fusée s'incline fortement, le calcul devient erroné car ils ne distinguent plus parfaitement la gravité."
         },
 
-		// --- PARTIE SÉCURITÉ (56 à 80) - BASÉE SUR LE PDF OFFICIEL REV 12/2022 ---
+		 // --- PARTIE SÉCURITÉ (Questions 1 à 53 du Manuel Officiel) ---
         {
-            q: "56. (Sécurité 1) Qui est autorisé à s'approcher d'une fusée de haute puissance sur la rampe de lancement ?",
+            q: "56. (Sécurité 1) Quel est le but du Code de Sécurité Unifié de Tripoli ?",
             options: [
-                "a. Le propriétaire de la fusée et les personnes qu'il autorise.",
-                "b. Tout membre de Tripoli.",
-                "c. Le propriétaire de la fusée et le personnel de l'organisation de lancement."
+                "a. Établir des directives pour un fonctionnement raisonnablement sûr des fusées lors d'un lancement Tripoli.",
+                "b. Établir des directives pour la construction de fusées lors d'un lancement Tripoli.",
+                "c. Établir des directives pour la fabrication de moteurs lors d'un lancement Tripoli."
             ],
-            correct: 0, // PDF Key: 1. a
-            hint: "Règle 1-2.1 : Seul le propriétaire a le contrôle final sur qui manipule son projet sur la rampe."
+            correct: 0,
+            hint: "La sécurité opérationnelle est la priorité du code."
         },
         {
-            q: "57. (Sécurité 2) Qui est autorisé à faire voler une fusée de haute puissance ?",
+            q: "57. (Sécurité 2) Bien que les lancements impliquent plusieurs niveaux de règles, qui est principalement responsable de la fusée et du vol ?",
             options: [
-                "a. Toute personne de plus de 18 ans.",
-                "b. Un membre de Tripoli avec l'accord du préfet.",
-                "c. Un utilisateur de fusée de haute puissance certifié (tel que défini dans la norme NFPA 1127)."
+                "a. Le Range Safety Officer (RSO).",
+                "b. Le Directeur de lancement (Launch Director).",
+                "c. Le lanceur (The flier)."
             ],
-            correct: 2, // PDF Key: 2. c
-            hint: "La certification est le prérequis légal et sécuritaire absolu pour le vol HPR."
+            correct: 2,
+            hint: "Le propriétaire de la fusée est le seul responsable final."
         },
         {
-            q: "58. (Sécurité 3) Une fusée de haute puissance peut-elle être lancée vers des spectateurs ?",
+            q: "58. (Sécurité 3) Le lanceur doit documenter l'emplacement du centre de ___ et être capable de démontrer le centre de ___ ?",
             options: [
-                "a. Oui, si le vent souffle dans la direction opposée.",
-                "b. Non, elle doit être lancée à un angle de plus de 20 degrés par rapport à toute personne.",
-                "c. Oui, si la zone est dégagée."
+                "a. Gravité, Pression",
+                "b. Pression, Gravité",
+                "c. Pression, Poussée"
             ],
-            correct: 1, // PDF Key: 3. b
-            hint: "On maintient toujours un cône de sécurité pour éviter qu'une défaillance n'envoie la fusée vers le public."
+            correct: 1,
+            hint: "CP documenté, CG démontré physiquement."
         },
         {
-            q: "59. (Sécurité 4) Quel matériau est interdit pour la construction du cône de nez ou du fuselage d'une fusée HPR ?",
+            q: "59. (Sécurité 4) Lesquels de ces types de moteurs ne sont pas autorisés à être fabriqués et lancés par un utilisateur de Niveau 2 en tant que moteur de recherche ?",
             options: [
-                "a. La fibre de carbone.",
-                "b. Le plastique ABS.",
-                "c. Le métal."
+                "a. Moteurs à poudre noire de recherche.",
+                "b. Moteurs à propergol liquide (sauf hybrides au protoxyde d'azote).",
+                "c. À la fois a. et b."
             ],
-            correct: 2, // PDF Key: 4. c
-            hint: "Le métal est proscrit pour les structures principales car il est dangereux à l'impact et bloque les signaux radio."
+            correct: 2,
+            hint: "Limitations spécifiques aux moteurs de recherche pour le Niveau 2."
         },
         {
-            q: "60. (Sécurité 5) De quoi doit être composé un système de récupération ?",
+            q: "60. (Sécurité 5) Les fusées lancées lors des événements Tripoli peuvent transporter :",
             options: [
-                "a. Un ruban (streamer) de couleur vive.",
-                "b. Un parachute ou un autre dispositif limitant la vitesse d'impact de la fusée.",
-                "c. Une charge d'éjection moteur uniquement."
+                "a. Des animaux vertébrés.",
+                "b. Des charges utiles dangereuses (toxiques, inflammables, incendiaires ou explosives).",
+                "c. Ni l'un ni l'autre (ni a. ni b.)."
             ],
-            correct: 1, // PDF Key: 5. b
-            hint: "Le système doit garantir que la fusée retombe assez lentement pour ne blesser personne et rester intacte."
+            correct: 2,
+            hint: "Interdiction stricte des charges dangereuses et du vivant."
         },
         {
-            q: "61. (Sécurité 6) Un moteur de fusée peut-il être utilisé comme charge d'impact (cible) ?",
+            q: "61. (Sécurité 6) Qu'est-ce que l'Autorité Ayant Juridiction (AHJ) ?",
             options: [
-                "a. Oui, pour tester l'intégrité structurelle.",
-                "b. Non, c'est strictement interdit par le code de sécurité Tripoli.",
-                "c. Uniquement sur les sites de lancement militaires."
+                "a. L'organisation, le bureau ou l'individu responsable de l'application des exigences d'un code ou d'une norme, ou de l'approbation de l'équipement, des matériaux, d'une installation ou d'une procédure.",
+                "b. Une procédure judiciaire statuant sur les activités de fusées haute puissance.",
+                "c. L'individu préparant une fusée haute puissance pour le vol."
             ],
-            correct: 1, // PDF Key: 6. b
-            hint: "Une fusée n'est pas une arme ; viser une cible est une violation grave des règles de sécurité."
+            correct: 0,
+            hint: "C'est l'entité qui contrôle et valide la conformité."
         },
         {
-            q: "62. (Sécurité 7) Quel dispositif est obligatoire sur le système de lancement électrique ?",
+            q: "62. (Sécurité 7) Qu'est-ce qu'une fusée haute puissance complexe ?",
             options: [
-                "a. Une batterie de 12 volts.",
-                "b. Un interrupteur à clé amovible.",
-                "c. Un voltmètre de précision."
+                "a. Une fusée ayant plus d'un étage.",
+                "b. Une fusée ayant un cluster de moteurs fusée.",
+                "c. L'un ou l'autre (a. ou b.)."
             ],
-            correct: 1, // PDF Key: 7. b
-            hint: "La clé de sécurité empêche tout allumage accidentel pendant que quelqu'un est près de la rampe."
+            correct: 2,
+            hint: "La complexité vient du nombre d'étages ou de moteurs groupés."
         },
         {
-            q: "63. (Sécurité 8) Quelle est la distance minimale de sécurité pour le lancement d'un moteur de type J (jusqu'à 1280 Ns) ?",
+            q: "63. (Sécurité 8) Quels sont les critères minimaux définissant une fusée haute puissance ?",
             options: [
-                "a. 30 mètres (100 feet).",
-                "b. 61 mètres (200 feet).",
-                "c. 152 mètres (500 feet)."
+                "a. Un moteur unique > 160 Ns ou une impulsion installée > 320 Ns (jusqu'à 40 960 Ns).",
+                "b. Une fusée équipée d’un moteur unique ayant une poussée moyenne supérieure à 80 Newtons, ou tout moteur de fusée #sparky# (utilisant généralement des particules de titane).",
+                "c. L'un ou l'autre (a. ou b.)."
             ],
-            correct: 2, // PDF Key: 8. c
-            hint: "Consultez la table 13-17 : la distance augmente avec la classe de puissance du moteur."
+            correct: 2,
+            hint: "Seuils d'impulsion, de poussée ou caractéristiques visuelles du moteur."
         },
         {
-            q: "64. (Sécurité 9) Qui a l'autorité ultime pour autoriser ou refuser un lancement ?",
+            q: "64. (Sécurité 9) Quel est le poids maximum d'une fusée miniature (model rocket) avec moteurs installés ?",
             options: [
-                "a. Le propriétaire de la fusée.",
-                "b. Le Responsable Sécurité (RSO / Range Safety Officer).",
-                "c. Le président du club local."
+                "a. 1500 g (53 oz).",
+                "b. 453,6 g (1 lb).",
+                "c. Il n'y a pas de limite de poids maximum pour une fusée miniature."
             ],
-            correct: 1, // PDF Key: 9. b
-            hint: "Le RSO est le 'maître du champ' ; sa décision est finale pour garantir la sécurité globale."
+            correct: 0,
+            hint: "Limite de poids pour rester en catégorie modelisme/Classe 1."
         },
         {
-            q: "65. (Sécurité 10) Peut-on lancer une fusée HPR dans des conditions de nuages bas ?",
+            q: "65. (Sécurité 10) Quand un dispositif de récupération actif n'est-il pas nécessaire dans une fusée haute puissance ?",
             options: [
-                "a. Oui, si on utilise un suivi GPS.",
-                "b. Non, la visibilité doit permettre de voir la fusée durant tout son vol.",
-                "c. Oui, si le plafond est au-dessus de 1000 pieds."
+                "a. Quand la fusée est destinée à un vol balistique.",
+                "b. Quand la fusée possède une charge d'éclatement.",
+                "c. Quand la fusée utilise un système de récupération passif (ex: chute instable, aéro-freinage)."
             ],
-            correct: 1, // PDF Key: 10. b
-            hint: "On ne doit jamais perdre la fusée de vue, pour s'assurer que le parachute s'ouvre et qu'elle ne dérive pas hors zone."
+            correct: 2,
+            hint: "La récupération peut être garantie par la forme de l'engin."
         },
         {
-            q: "66. (Sécurité 11) Quel est le poids maximum autorisé pour une fusée de haute puissance ?",
+            q: "66. (Sécurité 11) L'activité sur le terrain doit cesser dès qu'un orage a été détecté à moins de ___ milles (kilomètres) du site de lancement ?",
             options: [
-                "a. 113,4 kg (250 lbs).",
-                "b. 50,8 kg (112 lbs).",
-                "c. Il n'y a pas de limite de poids fixe (selon la norme NFPA 1127)."
+                "a. 5 (8 kilomètres).",
+                "b. 10 (16 kilomètres).",
+                "c. 20 (32 kilomètres)."
             ],
-            correct: 2, // PDF Key: 11. c
-            hint: "La limite est dictée par les capacités du site et du moteur, pas par un chiffre fixe dans le code unifié."
+            correct: 1,
+            hint: "Règle de sécurité face aux risques de foudre."
         },
         {
-            q: "67. (Sécurité 12) Quand l'allumeur doit-il être installé dans le moteur ?",
+            q: "67. (Sécurité 12) À quelle impulsion totale et/ou poussée moyenne un moteur devient-il haute puissance ?",
             options: [
-                "a. Dans l'aire de préparation (prep area).",
-                "b. Uniquement sur la rampe de lancement.",
-                "c. Avant de charger la fusée dans le véhicule."
+                "a. Un moteur > 80 Ns d'impulsion totale et 80 N de poussée moyenne.",
+                "b. Un moteur > 160 Ns d'impulsion totale ou 80 N de poussée moyenne.",
+                "c. Un moteur > 160 Ns d'impulsion totale et 160 N de poussée moyenne."
             ],
-            correct: 1, // PDF Key: 12. b
-            hint: "On n'arme la fusée qu'au dernier moment pour minimiser les risques d'allumage accidentel au sol."
+            correct: 1,
+            hint: "C'est le seuil réglementaire de la classe H."
         },
         {
-            q: "68. (Sécurité 13) Quelle est la définition d'un vol complexe ?",
+            q: "68. (Sécurité 13) Bien que le ratio 3:1 soit le minimum absolu du Code Tripoli, quel est le ratio poussée moyenne/poids initial minimum typique pour une fusée ?",
             options: [
-                "a. Un vol utilisant une électronique de déploiement double.",
-                "b. Un vol utilisant des moteurs à étages ou des grappes de moteurs (clustering).",
-                "c. Un vol dépassant Mach 1."
+                "a. 4:1",
+                "b. 5:1",
+                "c. 12:1"
             ],
-            correct: 1, // PDF Key: 13. b
-            hint: "La complexité vient de la gestion de plusieurs moteurs ou allumages successifs en vol."
+            correct: 1,
+            hint: "Le ratio recommandé pour garantir la stabilité au décollage."
         },
         {
-            q: "69. (Sécurité 14) Peut-on utiliser des allumeurs (igniters) fabriqués par l'utilisateur ?",
+            q: "69. (Sécurité 14) Qui peut lancer une fusée haute puissance ?",
             options: [
-                "a. Non, jamais.",
-                "b. Oui, s'ils sont testés et approuvés par le RSO.",
-                "c. Uniquement pour les moteurs de classe G."
+                "a. Tout membre d'une organisation de fusées reconnue nationalement.",
+                "b. Uniquement les personnes licenciées par le gouvernement fédéral.",
+                "c. Un utilisateur certifié tel que défini dans le Code de Sécurité Unifié de Tripoli."
             ],
-            correct: 1, // PDF Key: 14. b
-            hint: "L'expérimentation est permise mais nécessite une validation par l'officier de sécurité."
+            correct: 2,
+            hint: "La certification Tripoli est obligatoire."
         },
         {
-            q: "70. (Sécurité 15) Quelle est la distance minimale pour un moteur K (1280 - 2560 Ns) ?",
+            q: "70. (Sécurité 15) Quelles autorisations opérationnelles doivent être respectées pour faire voler des fusées haute puissance ?",
             options: [
-                "a. 152 mètres (500 feet).",
-                "b. 305 mètres (1000 feet).",
-                "c. 457 mètres (1500 feet)."
+                "a. Le Code de Sécurité Unifié de Tripoli.",
+                "b. Le Code Tripoli, les réglementations de l'espace aérien du pays et toute autre réglementation fédérale ou locale applicable.",
+                "c. La NFPA et la FAA."
             ],
-            correct: 1, // PDF Key: 15. b
-            hint: "Le moteur K est deux fois plus puissant qu'un J, la distance double donc également."
+            correct: 1,
+            hint: "Respect des lois aériennes et des codes de sécurité."
         },
         {
-            q: "71. (Sécurité 16) Comment doit être déclenchée la récupération sur une fusée HPR ?",
+            q: "71. (Sécurité 16) Quels critères s'appliquent à la construction d'une fusée haute puissance ?",
             options: [
-                "a. Manuellement par radio depuis le sol.",
-                "b. Par la simple résistance de l'air.",
-                "c. Par un système automatique (éjection moteur ou électronique)."
+                "a. Utiliser des matériaux appropriés pour résister aux contraintes opérationnelles et conserver l'intégrité structurelle en vol.",
+                "b. Utiliser uniquement les matériaux les plus légers pour la construction.",
+                "c. Utiliser des matériaux qui permettent une flexion minimale de la fusée en vol."
             ],
-            correct: 2, // PDF Key: 16. c
-            hint: "Le système doit être autonome pour fonctionner même si le contact avec le sol est perdu."
+            correct: 0,
+            hint: "Solidité structurelle avant tout."
         },
         {
-            q: "72. (Sécurité 17) Un membre certifié Niveau 1 peut-il acheter un moteur de classe J ?",
+            q: "72. (Sécurité 17) Quand la stabilité d'une fusée doit-elle être déterminée ?",
             options: [
-                "a. Oui, s'il a l'intention de faire son vol de certification Niveau 2.",
-                "b. Non, il doit être certifié Niveau 2 au moment de l'achat.",
-                "c. Uniquement s'il est accompagné d'un membre Niveau 3."
+                "a. Si le moniteur de sécurité le demande.",
+                "b. Pendant la conception de la fusée.",
+                "c. Lorsque la fusée est préparée pour le vol."
             ],
-            correct: 0, // PDF Key: 17. a
-            hint: "Tripoli autorise l'achat d'un moteur supérieur spécifiquement pour tenter le niveau de certification suivant."
+            correct: 2,
+            hint: "La vérification finale se fait au moment de la préparation pad."
         },
         {
-            q: "73. (Sécurité 18) Que faire si une fusée ne décolle pas après avoir actionné l'allumage ?",
+            q: "73. (Sécurité 18) Qui peut annuler une décision du RSO concernant la sécurité ?",
             options: [
-                "a. Attendre 60 secondes et retirer la clé de sécurité du système.",
-                "b. Courir vers la rampe pour vérifier l'allumeur.",
-                "c. Attendre 10 minutes avant de s'approcher."
+                "a. Les décisions du RSO sont finales et ne peuvent être annulées par aucun autre personnel, y compris le directeur de lancement.",
+                "b. Le directeur de lancement.",
+                "c. Un membre du CA de Tripoli, un préfet ou un TAP."
             ],
-            correct: 0, // PDF Key: 18. a
-            hint: "Le délai de 60s protège contre un allumage retardé (hang-fire) qui pourrait survenir pendant l'approche."
+            correct: 0,
+            hint: "Le RSO est l'autorité suprême en matière de sécurité."
         },
         {
-            q: "74. (Sécurité 19) Quelle est l'altitude maximale autorisée ?",
+            q: "74. (Sécurité 19) Quand est-il permis de rattraper une fusée haute puissance (à la main) ?",
             options: [
-                "a. 30 000 pieds.",
-                "b. Celle autorisée par l'administration de l'aviation (FAA/DGAC) pour le site.",
-                "c. 10 000 pieds au-dessus du sol."
+                "a. Si la fusée pèse moins de 1 kg.",
+                "b. Ce n'est jamais permis.",
+                "c. Si la fusée tombe assez lentement pour ne pas être jugée dangereuse."
             ],
-            correct: 1, // PDF Key: 19. b
-            hint: "C'est la FAA (ou la DGAC en France) qui définit le plafond légal via le NOTAM du jour."
+            correct: 1,
+            hint: "Interdiction absolue pour éviter les blessures."
         },
         {
-            q: "75. (Sécurité 20) Quelle est la limite maximale de vitesse du vent pour un lancement ?",
+            q: "75. (Sécurité 20) Sauf pour ce qui concerne la sécurité, qui peut annuler une décision du directeur de lancement ?",
             options: [
-                "a. 32 km/h (20 mph).",
-                "b. 48 km/h (30 mph).",
-                "c. 15 km/h."
+                "a. Le LCO.",
+                "b. Un membre du CA de Tripoli, un préfet ou un TAP.",
+                "c. Sauf pour la sécurité, la décision du directeur de lancement est finale et ne peut être annulée."
             ],
-            correct: 0, // PDF Key: 20. a
-            hint: "Au-delà de 20 mph, la stabilité et la récupération deviennent trop imprévisibles."
+            correct: 2,
+            hint: "Le directeur de lancement dirige les opérations."
         },
         {
-            q: "76. (Sécurité 21) Quel type de rampe est recommandé pour les fusées lourdes ?",
+            q: "76. (Sécurité 21) Quand un dispositif de lancement haute puissance doit-il intégrer un déflecteur de flamme ?",
             options: [
-                "a. Une tige de lancement classique (rod).",
-                "b. Un rail de guidage (rail).",
-                "c. Un lancement à la main."
+                "a. Lorsque cela est nécessaire pour éviter des dommages ou réduire le risque d'incendie.",
+                "b. Tous les systèmes de lancement doivent intégrer un déflecteur de jet.",
+                "c. Lorsque la conception du dispositif de lancement l'exige."
             ],
-            correct: 1, // PDF Key: 21. b
-            hint: "Le rail est bien plus rigide et évite le 'fouettement' de la tige au décollage des gros engins."
+            correct: 0,
+            hint: "Prévention des incendies au sol."
         },
         {
-            q: "77. (Sécurité 22) Peut-on consommer de l'alcool sur un site de lancement ?",
+            q: "77. (Sécurité 22) Quel est l'angle de lancement maximum par rapport à la verticale pour une fusée haute puissance ?",
             options: [
-                "a. Oui, après avoir fini ses vols.",
-                "b. Non, c'est interdit pendant les opérations de lancement sur le site.",
-                "c. Oui, modérément."
+                "a. 30°",
+                "b. 20°",
+                "c. Il n'y a pas d'angle de lancement maximum."
             ],
-            correct: 1, // PDF Key: 22. b
-            hint: "Sécurité avant tout : aucune substance altérant le jugement n'est tolérée sur le champ."
+            correct: 1,
+            hint: "Limite de déviation pour rester dans le cône de sécurité."
         },
         {
-            q: "78. (Sécurité 23) Qui doit observer un vol de certification Niveau 2 ?",
+            q: "78. (Sécurité 23) Quels sont les éléments d'un système d'allumage ?",
             options: [
-                "a. Un témoin certifié Niveau 1.",
-                "b. Deux membres de Tripoli certifiés au moins Niveau 2.",
-                "c. N'importe quel membre du club."
+                "a. Contrôle sans fil, fonctionnement électrique, interrupteur qui revient sur OFF quand relâché.",
+                "b. Contrôle sans fil, fonctionnement électrique et verrouillage de sécurité amovible en série.",
+                "c. Comprend un interrupteur d'armement avec clé ou verrou amovible, et utilise un interrupteur momentané pour commander l'allumage."
             ],
-            correct: 1, // PDF Key: 23. b
-            hint: "Il faut des pairs qualifiés pour valider la réussite technique du vol."
+            correct: 2,
+            hint: "Clé physique et bouton-poussoir momentané obligatoires."
         },
         {
-            q: "79. (Sécurité 24) Quelle est la distance minimale pour un moteur L (2560 - 5120 Ns) ?",
+            q: "79. (Sécurité 24) Quand l'allumeur doit-il être installé dans un moteur haute puissance ?",
             options: [
-                "a. 305 mètres (1000 feet).",
-                "b. 457 mètres (1500 feet).",
-                "c. 610 mètres (2000 feet)."
+                "a. Au lanceur (rampe) ou dans une zone de préparation désignée.",
+                "b. Lorsque le moteur est installé dans la fusée.",
+                "c. Ni a. ni b."
             ],
-            correct: 1, // PDF Key: 24. b
-            hint: "Le palier moteur L impose une distance de 1500 pieds (457m)."
+            correct: 0,
+            hint: "Armement pyrotechnique tardif."
         },
         {
-            q: "80. (Sécurité 25) Que signifie l'acronyme Tripoli « RSO » ?",
+            q: "80. (Sécurité 25) Quand le dispositif de coupure physique qui inhibe les charges pyrotechniques peut-il être connecté à l’alimentation ?",
             options: [
-                "a. Rocket Science Officer.",
-                "b. Range Safety Officer.",
-                "c. Regional Safety Organization."
+                "a. Dans la zone de préparation du lanceur.",
+                "b. Au pad ou dans une autre zone désignée par le directeur de lancement.",
+                "c. À la fois a. et b."
             ],
-            correct: 1, // PDF Key: 25. b
-            hint: "C'est l'officier responsable de la sécurité sur le champ de tir."
-        },
-        // --- PARTIE SÉCURITÉ (81 à 108) - ALIGNÉE SUR LE GUIDE OFFICIEL 2022 ---
-        {
-            q: "81. (Sécurité 26) Quelle est la définition d'une fusée miniature (Model Rocket) ?",
-            options: [
-                "a. Une fusée qui pèse moins de 453,592 g (16 onces).",
-                "b. Une fusée qui utilise moins de 113,398 g (4 onces) de propergol.",
-                "c. À la fois a et b."
-            ],
-            correct: 2, // Réponse 26c
-            hint: "Règle double : elle ne doit dépasser ni le poids total de 1 lb, ni le poids de carburant de 4 oz."
+            correct: 1,
+            hint: "Branchement final sur la rampe."
         },
         {
-            q: "82. (Sécurité 27) Comment le système de récupération doit-il être déployé ?",
+            q: "81. (Sécurité 26) Qu'est-ce qu'une fusée de Classe 1 ?",
             options: [
-                "a. Manuellement par l'opérateur au sol.",
-                "b. Par la résistance de l'air uniquement.",
-                "c. Par un système automatique (éjection moteur ou électronique)."
+                "a. Une fusée miniature avec un moteur G ou plus petit.",
+                "b. Une fusée miniature avec > 125 g de propergol et > 1500 g au décollage.",
+                "c. Une fusée miniature avec 125 g ou moins de propergol et 1500 g ou moins au décollage."
             ],
-            correct: 2, // Réponse 27c
-            hint: "Le déploiement doit être autonome pour garantir la sécurité même en cas de perte de signal."
+            correct: 2,
+            hint: "Définition légale de la Classe 1."
         },
         {
-            q: "83. (Sécurité 28) Pour un vol complexe (étages ou grappes), quelle est la distance de sécurité minimale ?",
+            q: "82. (Sécurité 27) Quels sont les critères du site de lancement ?",
             options: [
-                "a. La distance standard pour le moteur le plus gros.",
-                "b. 1,5 fois la distance indiquée dans la table des distances de sécurité.",
-                "c. 2 fois la distance standard."
+                "a. Pas moins d'un quart de l'altitude maximale prévue ou autorisée par l'aviation civile.",
+                "b. Pas moins de 1500 pieds (457 m).",
+                "c. À la fois a. et b."
             ],
-            correct: 1, // Réponse 28b
-            hint: "Le risque d'allumages multiples impose une zone de sécurité augmentée de 50%."
+            correct: 2,
+            hint: "Dimensions minimales du terrain."
         },
         {
-            q: "84. (Sécurité 29) À quelle distance les spectateurs doivent-ils se situer par rapport au responsable de la sécurité ?",
+            q: "83. (Sécurité 28) Quelle est la distance minimale entre un site de lancement et toute personne ou propriété non associée à l'opération ?",
             options: [
-                "a. À la distance indiquée dans la table des distances de sécurité.",
-                "b. Derrière le responsable sécurité (Safety Monitor).",
-                "c. À côté de la rampe de lancement."
+                "a. 1000 pieds (305 m).",
+                "b. 1500 pieds (457 m).",
+                "c. Aucune distance minimale si les occupants sont informés."
             ],
-            correct: 0, // Réponse 29a
-            hint: "La table des distances officielle (Table 13-17) est la référence légale prioritaire."
+            correct: 1,
+            hint: "Périmètre de protection des tiers."
         },
         {
-            q: "85. (Sécurité 30) Quelles sont les conditions requises pour le site de lancement ?",
+            q: "84. (Sécurité 29) À quelle distance les spectateurs peuvent-ils se trouver d'un lancement haute puissance ?",
             options: [
-                "a. Un champ avec quelques arbres pour couper le vent.",
-                "b. Une zone proche d'une route pour faciliter la récupération.",
-                "c. Une zone dégagée, sans arbres, bâtiments, lignes électriques ou avions."
+                "a. À la distance définie par la table des distances de sécurité (Safe Distances Table).",
+                "b. À la moitié de la distance définie par la table.",
+                "c. Au double de la distance définie par la table."
             ],
-            correct: 2, // Réponse 30c
-            hint: "Un site nu prévient les incendies et évite les collisions dangereuses."
+            correct: 0,
+            hint: "La table 13-17 est la référence."
         },
         {
-            q: "86. (Sécurité 31) Comment doit être la rampe de lancement pour garantir la sécurité ?",
+            q: "85. (Sécurité 30) Quelle est l'altitude maximale autorisée pour les fusées haute puissance si le plafond nuageux est à 3 000 pieds (914 m) et l'autorisation (waiver) à 15 000 pieds (4572 m) ?",
             options: [
-                "a. Elle doit être légère pour être transportée facilement.",
-                "b. Elle doit être stable et guider la fusée dans une direction sûre.",
-                "c. Elle doit être inclinée à 45 degrés."
+                "a. Jusqu'à 15 000 pieds (4572 m).",
+                "b. Jusqu'à 3 500 pieds (1067 m).",
+                "c. Jusqu'à 3 000 pieds (914 m)."
             ],
-            correct: 1, // Réponse 31b
-            hint: "La plateforme doit être stable et guider l'engin jusqu'à sa vitesse de stabilité."
+            correct: 2,
+            hint: "On ne peut pas voler au-dessus du plafond nuageux visible."
         },
         {
-            q: "87. (Sécurité 32) Quel est le prérequis pour le système de contrôle de lancement ?",
+            q: "86. (Sécurité 31) Quelle est la limite de vent en surface pour le lancement d'une fusée haute puissance ?",
             options: [
-                "a. Il peut être actionné manuellement par une mèche.",
-                "b. Il doit être sans fil uniquement.",
-                "c. Il doit être à distance, électrique et muni d'un verrouillage de sécurité."
+                "a. 30 MPH (48 km/h).",
+                "b. 20 MPH (32 km/h).",
+                "c. 15 MPH (24 km/h)."
             ],
-            correct: 2, // Réponse 32c
-            hint: "L'allumage doit être électrique et sécurisé par une clé physique."
+            correct: 1,
+            hint: "Vitesse de vent maximale autorisée."
         },
         {
-            q: "88. (Sécurité 33) Quelle est la définition d'une fusée de haute puissance (HPR) ?",
+            q: "87. (Sécurité 32) Quand une fusée haute puissance peut-elle être lancée ?",
             options: [
-                "a. Une fusée utilisant un moteur de classe H ou plus.",
-                "b. Une fusée pesant plus de 1,5 kg.",
-                "c. Une fusée dont l'impulsion dépasse 160 Ns ou contenant plus de 125g de propergol."
+                "a. Après avoir averti les spectateurs et après avoir fait un décompte de 5 secondes.",
+                "b. Quand tous les systèmes sont prêts et après avoir fait un décompte de 5 secondes.",
+                "c. Après avoir annoncé la fusée et après avoir fait un décompte de 5 secondes."
             ],
-            correct: 2, // Réponse 33c
-            hint: "C'est la limite légale entre le modélisme simple et la haute puissance."
+            correct: 2,
+            hint: "Annonce et décompte."
         },
         {
-            q: "89. (Sécurité 34) Le compte à rebours est-il obligatoire ?",
+            q: "88. (Sécurité 33) Qu'est-ce qu'une fusée de Classe 2 ?",
             options: [
-                "a. Non, c'est optionnel.",
-                "b. Oui, un compte à rebours de 5 secondes minimum est requis.",
-                "c. Uniquement si des enfants sont présents."
+                "a. Une fusée autre qu'une fusée miniature avec une impulsion combinée > 640 N-s.",
+                "b. Une fusée autre qu'une fusée miniature avec une impulsion combinée > 40 960 N-s.",
+                "c. Une fusée autre qu'une fusée miniature avec une impulsion combinée inférieure à 40 960 N-s."
             ],
-            correct: 1, // Réponse 34b
-            hint: "Il sert à avertir toutes les personnes sur le terrain d'un danger imminent."
+            correct: 2,
+            hint: "Définition de la Classe 2 (HPR standard)."
         },
         {
-            q: "90. (Sécurité 35) Quel est le dispositif de sécurité requis pour les systèmes d'allumage ?",
+            q: "89. (Sécurité 34) Quelle est la distance minimale pour fumer (ou flammes nues) à proximité des moteurs, kits de rechargement et modules pyrotechniques ?",
             options: [
-                "a. Un fusible de rechange.",
-                "b. Une batterie scellée.",
-                "c. Un interrupteur de sécurité ou une clé amovible."
+                "a. 10 pieds (3 m).",
+                "b. 25 pieds (8 m).",
+                "c. Il n'y a pas de distance minimale."
             ],
-            correct: 2, // Réponse 35c
-            hint: "La clé amovible garantit que le circuit reste physiquement ouvert pendant l'installation."
+            correct: 1,
+            hint: "Mesure de prévention contre les mises à feu accidentelles."
         },
         {
-            q: "91. (Sécurité 36) Quel est l'angle de lancement maximal autorisé par rapport à la verticale ?",
+            q: "90. (Sécurité 35) Quand êtes-vous autorisé à installer un allumeur ou un module d’allumage situé à l’extrémité avant du moteur, y compris sur une fusée à étages multiples, en grappe (cluster) ou à allumage en vol (air start) ?",
             options: [
-                "a. 20 degrés.",
-                "b. 30 degrés.",
-                "c. 45 degrés."
+                "a. Dans la zone de préparation du lanceur.",
+                "b. À la table du RSO.",
+                "c. Au pad ou dans une autre zone désignée par le directeur de lancement."
             ],
-            correct: 0, // Réponse 36a
-            hint: "Vingt degrés est la limite absolue pour éviter les trajectoires balistiques vers le public."
+            correct: 2,
+            hint: "🔥 Head end ignition → allumage d’un moteur en vol"
         },
         {
-            q: "92. (Sécurité 37) Qu'est-ce qu'une fusée de classe 3 ?",
+            q: "91. (Sécurité 36) Dans quelle direction un planeur propulsé par fusée (R/C RBG) peut-il être lancé par rapport à la ligne de vol ?",
             options: [
-                "a. Une fusée dépassant 30 000 pieds d'altitude.",
-                "b. Une fusée utilisant un moteur de classe O ou plus.",
-                "c. Une fusée de haute puissance dépassant les limites de la classe 2."
+                "a. Parallèlement ou en s'éloignant de celle-ci.",
+                "b. Parallèlement ou vers celle-ci.",
+                "c. Il n'y a pas d'exigence de direction."
             ],
-            correct: 2, // Réponse 37c
-            hint: "Cette catégorie concerne les projets exceptionnels dépassant le cadre du Niveau 2."
+            correct: 0,
+            hint: "Sécurité pour éviter que le planeur ne fonce vers le public."
         },
         {
-            q: "93. (Sécurité 38) Un moteur de haute puissance peut-être transmis à une personne non certifiée :",
+            q: "92. (Sécurité 37) À quelle impulsion commence une fusée de Classe 3 ?",
             options: [
-                "a. Uniquement pour préparer sa certification.",
-                "b. Quand la personne est résidente du pays du transfert.",
-                "c. Ce n’est jamais permis."
+                "a. Au-dessus de 5 120 N-s.",
+                "b. En dessous de 40 960 N-s.",
+                "c. Au-dessus de 40 960 N-s."
             ],
-            correct: 2, // Réponse 38c
-            hint: "Aucune exception n'est tolérée pour la sécurité publique et le respect de la loi."
+            correct: 2,
+            hint: "Seuil de la très haute puissance (Classe 3)."
         },
         {
-            q: "94. (Sécurité 39) Un moteur est considéré 'Haute Puissance' si son impulsion totale dépasse :",
+            q: "93. (Sécurité 38) Les vols de test ou les premiers vols de planeurs R/C doivent être lancés à la distance spécifiée par la table de sécurité, majorée de ___ pieds ?",
             options: [
-                "a. 160 Newton-secondes.",
-                "b. 320 Newton-secondes.",
-                "c. 640 Newton-secondes."
+                "a. 0",
+                "b. 50 (15m)",
+                "c. 100 (30m)"
             ],
-            correct: 0, // Réponse 39a
-            hint: "La catégorie H (début du HPR) commence précisément à 160,01 Ns."
+            correct: 2,
+            hint: "Marge de sécurité supplémentaire pour les nouveaux planeurs."
         },
         {
-            q: "95. (Sécurité 40) Un moteur est considéré 'Haute Puissance' si sa poussée moyenne dépasse :",
+            q: "94. (Sécurité 39) Quel est l'angle maximum (en degrés) par rapport à la verticale pour le lancement d'une fusée miniature ?",
             options: [
-                "a. 40 Newtons.",
-                "b. 80 Newtons.",
-                "c. 160 Newtons."
+                "a. 30",
+                "b. 20",
+                "c. 10"
             ],
-            correct: 1, // Réponse 40b
-            hint: "Même avec peu d'impulsion, un moteur qui pousse fort d'un coup est classé HPR."
+            correct: 0,
+            hint: "Angle limite pour les Classe 1."
         },
         {
-            q: "96. (Sécurité 41) Quelle est l'altitude maximale autorisée sans dérogation ?",
+            q: "95. (Sécurité 40) La distance minimale de sécurité pour tout spectateur lors du lancement d'une fusée miniature doit être de ___ pieds ?",
             options: [
-                "a. 15 000 pieds.",
-                "b. 30 000 pieds.",
-                "c. Celle fixée par le dégagement de l'espace aérien local (NOTAM)."
+                "a. 30 (9m)",
+                "b. 50 (15m)",
+                "c. 100 (30m)"
             ],
-            correct: 2, // Réponse 41c
-            hint: "On doit toujours se plier aux limites fixées par l'aviation civile locale."
+            correct: 1,
+            hint: "Distance de sécurité pour le modélisme."
         },
         {
-            q: "97. (Sécurité 42) Quelle est la distance minimale pour un moteur de type H (160-320 Ns) ?",
+            q: "96. (Sécurité 41) La distance complexe s'applique dès que ___ fusées ou plus sont lancées simultanément ?",
             options: [
-                "a. 30 mètres (100 feet).",
-                "b. 61 mètres (200 feet).",
-                "c. 152 mètres."
+                "a. 1",
+                "b. 2",
+                "c. 3"
             ],
-            correct: 0, // Réponse 42a
-            hint: "C'est la distance de retrait de base pour le plus petit des moteurs HPR."
+            correct: 2,
+            hint: "Règle pour les lancements groupés (drag races)."
         },
         {
-            q: "98. (Sécurité 43) Quelle est la distance minimale pour un moteur de type I (320-640 Ns) ?",
+            q: "97. (Sécurité 42) Quand des tuyères en acier peuvent-elles être utilisées dans les moteurs de recherche ?",
             options: [
-                "a. 30 mètres.",
-                "b. 61 mètres (200 feet).",
-                "c. 152 mètres."
+                "a. Quand le col de tuyère est encastré dans le boîtier d'un moteur au sucre.",
+                "b. Pour n'importe quel moteur de recherche.",
+                "c. Jamais."
             ],
-            correct: 1, // Réponse 43b
-            hint: "La distance de sécurité double pour le moteur I par rapport au moteur H."
+            correct: 0,
+            hint: "👉 “Acier libre = interdit - Acier enfermé = OK”."
         },
         {
-            q: "99. (Sécurité 44) Une fusée haute puissance peut-elle être lancée la nuit ?",
+            q: "98. (Sécurité 43) Quelle est la limite d'âge reconnue par Tripoli pour être un utilisateur certifié de moteur haute puissance à propergol solide ?",
             options: [
-                "a. Non, jamais.",
-                "b. Oui, si elle est équipée de lumières de suivi et approuvée par le RSO.",
-                "c. Uniquement lors des lancements expérimentaux."
+                "a. 21 ans",
+                "b. 18 ans",
+                "c. Il n'y a pas de limite d'âge."
             ],
-            correct: 1, // Réponse 44b
-            hint: "Le vol nocturne exige des dispositifs visuels et l'accord exprès de l'officier de sécurité."
+            correct: 1,
+            hint: "Majorité requise pour la certification HPR."
         },
         {
-            q: "100. (Sécurité 45) Quel niveau de certification est requis pour les moteurs J, K et L ?",
+            q: "99. (Sécurité 44) Quelle est la distance de sécurité minimale pour un moteur non-complexe H, I ou J ?",
             options: [
-                "a. Niveau 1.",
-                "b. Niveau 3.",
-                "c. Niveau 2."
+                "a. 50 ft (15 m)",
+                "b. 100 ft (30 m)",
+                "c. 200 ft (61 m)"
             ],
-            correct: 2, // Réponse 45c
-            hint: "L'examen que vous passez actuellement vous donnera accès à cette plage de puissance."
+            correct: 1,
+            hint: "Distance standard pour les moteurs de Niveau 1 et petit Niveau 2."
         },
         {
-            q: "101. (Sécurité 46) Quand peut-on transmettre un moteur de haute puissance à une personne non certifiée ?",
+            q: "100. (Sécurité 45) Quand les moteurs de recherche vendus à but lucratif peuvent-ils être utilisés lors d'un lancement Tripoli ?",
             options: [
-                "a. Ce n’est jamais permis.",
-                "b. Uniquement pour préparer sa certification.",
-                "c. Quand la personne est résidente du pays du transfert."
+                "a. Quand les moteurs ne sont pas transportés hors de l'état de fabrication.",
+                "b. Quand la vente est limitée aux utilisateurs certifiés.",
+                "c. Ce n'est jamais autorisé."
             ],
-            correct: 0, // Réponse 46a
-            hint: "Même pour une certification, la loi impose que le moteur reste sous le contrôle d'une personne certifiée."
+            correct: 2,
+            hint: "La vente commerciale de moteurs de recherche est interdite."
         },
         {
-            q: "102. (Sécurité 47) Peut-on utiliser un moteur de fusée à propergol solide fabriqué par l'utilisateur ?",
+            q: "101. (Sécurité 46) Lesquels de ces matériaux peuvent être utilisés pour les boîtiers de moteurs de recherche ?",
             options: [
-                "a. Non, ils doivent être manufacturés.",
-                "b. Oui, pour n'importe quel vol Tripoli.",
-                "c. Uniquement pour les certifiés L2/L3 lors de lancements 'Research'."
+                "a. Boîtiers métalliques en métaux ductiles non ferreux comme l'alliage d'aluminium 6061.",
+                "b. Boîtiers métalliques en métaux ferreux comme l'acier.",
+                "c. Boîtiers non métalliques en PVC."
             ],
-            correct: 2, // Réponse 47c
-            hint: "Les moteurs 'maison' sont strictement réservés au cadre des lancements 'Research'."
+            correct: 0,
+            hint: "Aluminium uniquement pour la sécurité en cas d'éclatement."
         },
         {
-            q: "103. (Sécurité 48) Quelle est la distance minimale d'un aéroport pour un lancement ?",
+            q: "102. (Sécurité 47) Quand est-il permis de consommer de l'alcool lors de la préparation ou du lancement de fusées haute puissance ?",
             options: [
-                "a. 2 km.",
-                "b. 5 km.",
-                "c. 8 km (5 miles)."
+                "a. Quand la préparation est faite la veille du lancement.",
+                "b. Si le taux d'alcoolémie est inférieur au seuil légal.",
+                "c. Ce n'est jamais autorisé."
             ],
-            correct: 2, // Réponse 48c
-            hint: "C'est la règle standard pour éviter tout conflit avec le trafic aérien civil."
+            correct: 2,
+            hint: "Tolérance zéro alcool sur le terrain."
         },
         {
-            q: "104. (Sécurité 49) Quelle est l'impulsion minimale pour un moteur de classe J ?",
+            q: "103. (Sécurité 48) Les organisations pouvant certifier des moteurs haute puissance incluent :",
             options: [
-                "a. 320,01 Ns.",
-                "b. 1280,01 Ns.",
-                "c. 640,01 Ns."
+                "a. Tripoli Rocketry Association (TRA) et National Association of Rocketry (NAR) uniquement.",
+                "b. Le Bureau of Alcohol, Tobacco, Firearms, and Explosives (BATFE).",
+                "c. TRA, NAR, et Canadian Association of Rocketry (CAR)."
             ],
-            correct: 2, // Réponse 49c
-            hint: "La classe J commence précisément là où la classe I s'achève."
+            correct: 2,
+            hint: "Reconnaissance mutuelle des trois grandes associations."
         },
         {
-            q: "105. (Sécurité 50) Quel est le ratio Poussée/Poids recommandé au décollage ?",
+            q: "104. (Sécurité 49) Quand l'électronique contrôlant les charges pyrotechniques peut-elle être mise sous tension ?",
             options: [
-                "a. Au moins 1:1.",
-                "b. Au moins 3:1 ou 5:1.",
-                "c. Au moins 10:1."
+                "a. Avant de fermer le compartiment électronique (ebay) au campement.",
+                "b. Après avoir passé l'inspection de la fusée.",
+                "c. Une fois que la fusée est verticale sur le pad mais AVANT l'installation de l'allumeur moteur."
             ],
-            correct: 1, // Réponse 50b
-            hint: "Ce ratio garantit que la fusée gagne assez de vitesse pour être stable dès la sortie de rampe."
+            correct: 2,
+            hint: "Ordre de sécurité pour l'armement électronique."
         },
         {
-            q: "106. (Sécurité 51) Une fusée doit-elle avoir un contact visuel permanent ?",
+            q: "105. (Sécurité 50) La vitesse maximale à l'atterrissage d'une fusée ne doit pas dépasser ___ ?",
             options: [
-                "a. Uniquement au décollage.",
-                "b. Le suivi GPS seul est suffisant.",
-                "c. Oui, durant tout le vol jusqu'à l'atterrissage."
+                "a. 50 ft/s (15 m/s)",
+                "b. 35 ft/s (11 m/s)",
+                "c. 15 ft/s (4 m/s)"
             ],
-            correct: 2, // Réponse 51c
-            hint: "Le contact visuel est le dernier rempart pour assurer que le vol reste dans la zone prévue."
+            correct: 1,
+            hint: "Vitesse d'impact pour éviter les blessures et la casse."
         },
         {
-            q: "107. (Sécurité 52) À quelle distance minimale doit se trouver le public pour un moteur K ?",
+            q: "106. (Sécurité 51) Qui au sein de Tripoli peut certifier un membre Niveau 1 ou Niveau 2 ?",
             options: [
-                "a. 152 mètres.",
-                "b. 457 mètres.",
-                "c. 305 mètres (1000 feet)."
+                "a. Le préfet.",
+                "b. Un membre TAP.",
+                "c. Un membre du conseil d'administration, le préfet ou un membre TAP."
             ],
-            correct: 2, // Réponse 52c
-            hint: "La distance double pour le moteur K par rapport au moteur J."
+            correct: 2,
+            hint: "Autorités habilitées à valider la certification."
         },
         {
-            q: "108. (Sécurité 53) À quelle distance minimale doit se trouver le public pour un moteur L ?",
+            q: "107. (Sécurité 52) Qui est autorisé dans la zone de lancement haute puissance lors d'un lancement Tripoli ?",
             options: [
-                "a. 305 mètres.",
-                "b. 457 mètres (1500 feet).",
-                "c. 610 mètres."
+                "a. Toute personne invitée.",
+                "b. Les spectateurs.",
+                "c. Les membres Tripoli TMP ou Jr L1 NAR et tout membre Tripoli ou NAR de 18 ans ou plus."
             ],
-            correct: 1, // Réponse 53b
-            hint: "C'est la distance maximale requise pour les moteurs de Niveau 2."
+            correct: 2,
+            hint: "Accès restreint aux zones de tir."
+        },
+        {
+            q: "108. (Sécurité 53) Quand la récupération à déclenchement electronique est-elle nécessaire ?",
+            options: [
+                "a. Il n'y a pas d'exigence, c'est au choix du lanceur.",
+                "b. Une fusée haute puissance lancée avec une impulsion installée > 2 560 N-s.",
+                "c. Une fusée haute puissance lancée avec une impulsion installée > 5 120 N-s."
+            ],
+            correct: 1,
+            hint: "Obligation électronique pour les gros moteurs (Classe K et plus)."
         }
+
     ];
 	
     let activeQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let hasAnswered = false;
+	let isExamenMode = false; // <-- Ajoutez cette ligne
 
     // Fonction utilitaire pour mélanger un tableau (Fisher-Yates)
     function shuffle(array) {
@@ -1273,6 +1292,8 @@
     function startQuiz(choice) {
         document.getElementById("menu-screen").style.display = "none";
         document.getElementById("quiz-screen").style.display = "block";
+		
+		isExamenMode = (choice === 5); // <-- Ajoutez cette ligne
         
         if (choice === 1) {
             activeQuestions = allQuestions.slice(0, 22);
@@ -1304,30 +1325,41 @@
     }
 
     function loadQuestion() {
-        hasAnswered = false;
-        const q = activeQuestions[currentQuestionIndex];
-        document.getElementById("question-text").innerText = q.q;
-        const optionsContainer = document.getElementById("options-container");
-        optionsContainer.innerHTML = "";
-        
-        document.getElementById("hint-section").style.display = "none";
-        document.getElementById("hint-section").innerText = "💡 Indice : " + q.hint;
-        document.getElementById("hint-btn").style.display = "block";
-        document.getElementById("next-btn").style.display = "none";
-        document.getElementById("skip-btn").style.display = "block";
-        
-        const progressPercentage = (currentQuestionIndex / activeQuestions.length) * 100;
-        document.getElementById("progress-bar").style.width = progressPercentage + "%";
-        document.getElementById("progress-text").innerText = `Question ${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+    hasAnswered = false;
+    const q = activeQuestions[currentQuestionIndex];
+    document.getElementById("question-text").innerText = q.q;
+    const optionsContainer = document.getElementById("options-container");
+    optionsContainer.innerHTML = "";
 
-        q.options.forEach((optText, index) => {
-            const optDiv = document.createElement("div");
-            optDiv.className = "option";
-            optDiv.innerText = optText;
-            optDiv.onclick = () => checkAnswer(index, optDiv);
-            optionsContainer.appendChild(optDiv);
-        });
+    // 1. On prépare l'indice
+    document.getElementById("hint-section").style.display = "none";
+    document.getElementById("hint-section").innerText = "💡 Indice : " + q.hint;
+
+    // 2. GESTION DU MODE EXAMEN (C'est ici qu'on décide d'afficher ou non le bouton)
+    if (isExamenMode) {
+        document.getElementById("hint-btn").style.display = "none"; 
+    } else {
+        document.getElementById("hint-btn").style.display = "block";
     }
+
+    // 3. On gère les boutons de navigation
+    document.getElementById("next-btn").style.display = "none";
+    document.getElementById("skip-btn").style.display = "block";
+
+    // 4. Barre de progression
+    const progressPercentage = (currentQuestionIndex / activeQuestions.length) * 100;
+    document.getElementById("progress-bar").style.width = progressPercentage + "%";
+    document.getElementById("progress-text").innerText = `Question ${currentQuestionIndex + 1} / ${activeQuestions.length}`;
+
+    // 5. Affichage des options
+    q.options.forEach((optText, index) => {
+        const optDiv = document.createElement("div");
+        optDiv.className = "option";
+        optDiv.innerText = optText;
+        optDiv.onclick = () => checkAnswer(index, optDiv);
+        optionsContainer.appendChild(optDiv);
+    });
+}
 
     function checkAnswer(selectedIndex, optionElement) {
         if (hasAnswered) return;
@@ -1379,6 +1411,12 @@
             document.getElementById("result-message").innerHTML = "<span style='color:red'>Insuffisant. Vous devez obtenir au moins 90% pour la certification Tripoli.</span>";
         }
     }
+	
+	function returnToMenu() {
+    if (confirm("Voulez-vous vraiment quitter le quiz et revenir au menu ?")) {
+        location.reload();
+    }
+}
 </script>
 </body>
 </html>
